@@ -1,0 +1,14 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %}
+<script src="{% static 'user/js/list.js' %}"></script>
+{% endblock %} {% block columns %}
+<tr>
+    <th scope="col">NRO</th>
+    <th scope="col">NOMBRE</th>
+    <th scope="col">APELLIDO</th>
+    <th scope="col">NOMBRE USUARIO</th>
+    <th scope="col">EMAIL</th>
+    <th scope="col">FECHA REGISTRO</th>
+    <th scope="col">PERMISOS</th>
+    <th scope="col">OPCIONES</th>
+</tr>
+{% endblock %} {% block rows %} {% endblock %} {% block javascript %} {% endblock %}

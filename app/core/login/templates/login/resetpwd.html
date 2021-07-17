@@ -1,0 +1,59 @@
+{% extends "login/base.html" %} {% load static %} {% load widget_tweaks %} {% block content %}
+
+<div class="login-box">
+    <div class="login-logo">
+        <img src="{% static 'lib/adminlte-3.0.4/img/logo.png' %}" width="240px">
+        <p class="text-uppercase">Cambiar Contraseña</p>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body menulogin">
+            <hr>
+            <form action="." method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+                <div class="input-group mb-3">
+                    {{ form.username }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user" style="color: grey;"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-mb-12">
+                        <button type="submit" class="btn btn-success btn-block btn-flat">Cambiar Contraseña <i class="fas fa-envelope"></i></button>
+                    </div>
+                </div>
+        </div>
+        <hr>
+        <p class="mb-1 text-center ">
+            <a href="{% url 'login' %}" class="option">Volver a Login</a>
+        </p>
+        <hr>
+        </form>
+        <hr>
+
+    </div>
+</div>
+<script type="application/javascript">
+    $('form').on('submit', function(e) {
+        e.preventDefault();
+        var parameters = new FormData(this);
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de cambiar su contraseña?', parameters, function() {
+            Swal.fire({
+                title: 'Notificación',
+                text: 'Acabamos de enviar un Email para que pueda finalizar el cambio de contraseña',
+                icon: 'success',
+                timer: 5000,
+                onClose: () => {
+                    location.href = '{{ list_url }}';
+                }
+            }).then((result) => {});
+
+        });
+    });
+</script>
+</div>
+
+{% endblock %}

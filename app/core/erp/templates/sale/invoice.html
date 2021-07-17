@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+    .img-invoice {
+        width: 50px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .head {
+        text-align: center;
+        text-transform: uppercase;
+    }
+    
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+    
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    #invoice tbody tr {
+        padding: 0;
+    }
+    
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <p class="head" style="font-size: 16px;">
+        {{ comp.name|upper }}<br> {{ comp.rut }}<br> {{ comp.address|upper }} <br> {{comp.email|upper}}
+    </p>
+    <p>
+        <!--<b>FACTURA:</b> {{ sale.id }}<br>-->
+        <b>FECHA VENTA: </b> {{ sale.date_joined|upper }} <br>
+        <b>CLIENTE: </b>{{ sale.cli.names|upper }} <br>
+        <b>RUT: </b>{{ sale.cli.dni|upper}}<br>
+        <b>GIRO COMERCIAL: </b>{{ sale.cli.commercial_business|upper}}<br>
+        <b>EMAIL: </b>{{ sale.cli.email|upper}}<br>
+        <b>DIRECCIÓN: </b>{{ sale.cli.address|upper }}<br>
+        <b>CIUDAD: </b>{{ sale.cli.city|upper }}<br>
+    </p>
+    <table id="invoice">
+        <thead>
+            <tr>
+                <th>CANTIDAD</th>
+                <th>PRECIO UNITARIO</th>
+                <th>CATEGORIA</th>
+                <th>PRODUCTO</th>
+                <th style="width: 13%;">TOTAL + IVA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in sale.detsale_set.all %}
+            <tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+                <td class="text-left">{{ d.cant }}</td>
+                <td class="text-left">$ {{ d.price }}</td>
+                <td>{{ d.prod.cat.name }}</td>
+                <td>{{ d.prod.name }}</td>
+                <td style="text-align: left;">$ {{ d.subtotal }}</td>
+            </tr>
+            {% endfor %}
+            <tr style="border-top: 1px solid black; padding-top: 4px;">
+                <td colspan="4"><b>SUBTOTAL:</b></td>
+                <td style="text-align: left"><b>$ {{ sale.subtotal }}</b></td>
+            </tr>
+            <tr style="padding-top: 2px;">
+                <td colspan="4"><b>IVA 19%:</b></td>
+                <td style="text-align: left"><b>$ {{ sale.iva }}</b></td>
+            </tr>
+            <tr style="padding-top: 2px;">
+                <td colspan="4"><b>TOTAL A PAGAR:</b></td>
+                <td style="text-align: left"><b> $ {{ sale.total }}</b></td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin-top: 250px;">
+        <thead>
+            <tr>
+                <th>****GRACIAS POR SU COMPRA****</th>
+            </tr>
+            <tr>
+                <th>DEVOLUCIONES ANTES DE LOS PRIMEROS 15 DÍAS</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+
+</html>
