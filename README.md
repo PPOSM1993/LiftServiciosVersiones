@@ -11,3 +11,4 @@ aplicación (sea esta web, móvil de escritorio) con el objetivo de poder maneja
 
 
 
+![Captura](https://user-images.githubusercontent.com/21320786/127536030-bacff6ad-62a0-40bb-9853-036c07fad9a4.PNG)
