@@ -10,6 +10,7 @@ class User(AbstractUser):
         upload_to='users/%Y/%m/%d', null=True, blank=True)
     token = models.UUIDField(
         primary_key=False, editable=False, null=True, blank=True)
+    email = models.EmailField(unique=True)
 
     def get_image(self):
         if self.image:

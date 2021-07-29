@@ -2,6 +2,9 @@ from datetime import datetime
 from django.forms import ModelForm
 from django.forms import *
 
+#from phonenumber_field.formfields import PhoneNumberField
+#from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
 from core.erp.models import *
 
 
@@ -94,7 +97,7 @@ class ClientForm(ModelForm):
             ),
             'dni': TextInput(
                 attrs={
-                    'placeholder': 'RUT (Sin puntos)',
+                    'placeholder': 'RUT (Use puntos y guión  - EJ: 11.111.111-1)',
                 }
             ),
             'commercial_business': TextInput(
@@ -105,7 +108,9 @@ class ClientForm(ModelForm):
             'phone': TextInput(
                 attrs={
                     'placeholder': 'Contacto Telefonico',
-                }
+                },
+                #widget=PhoneNumberPrefixWidget(initial='CL')
+
             ),
             'address': TextInput(
                 attrs={
