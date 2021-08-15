@@ -4,12 +4,8 @@ from django.db import models
 from django.forms import model_to_dict
 from django.core.validators import RegexValidator
 
-
-
 from config.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
-
-
 
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
@@ -28,9 +24,60 @@ class Category(models.Model):
         ordering = ['id']
 
 
+class Proveedor(models.Model):
+    
+    name = models.CharField(max_length=150, verbose_name='Empresa Proveedora')
+    rut_regex = RegexValidator(
+        regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
+    rut = models.CharField(
+        validators=[rut_regex], max_length=12, unique=True, verbose_name='RUT')
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="El número de telefono debe tener el siguiente: '+999999999'. Up to 15 digits allowed.")
+    phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, unique=True, verbose_name="Telefono") # validators should be a list
+    email = models.EmailField(
+        max_length=150, null=True, blank=True, verbose_name='Email', unique=True)
+    address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
+    city = models.CharField(max_length=150, null=True, blank=True, verbose_name='Ciudad')
+    def __str__(self):
+        return self.get_full_name()
+
+    def get_full_name(self):
+        return '{} / {}'.format(self.name, self.rut)
+    
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'Proveedor'
+        verbose_name_plural = 'Proveedores'
+        ordering = ['id']
+
+class Marca(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Nombre Marca', unique=True)
+    #desc = models.CharField(max_length=500, null=True,
+    #                        blank=True, verbose_name='Descripción Marca')
+    
+    def __str__(self):
+        return self.name
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+    
+    class Meta:
+        verbose_name = 'Marca'
+        verbose_name_plural = 'Marcas'
+        ordering = ['id']
+
+
 class Product(models.Model):
+    
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT, verbose_name='Proveedor')
+    marca = models.ForeignKey(
+        Marca, on_delete=models.PROTECT, verbose_name='Marca')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True, verbose_name='Imagen')
     stock = models.IntegerField(default=0, verbose_name='Stock')
     pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Precio de venta')
@@ -41,6 +88,7 @@ class Product(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['cat'] = self.cat.toJSON()
+        item['proveedor'] = self.proveedor.toJSON()
         item['image'] = self.get_image()
         item['pvp'] = format(self.pvp, '.2f')
         return item
@@ -70,6 +118,7 @@ class Client(models.Model):
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
     city = models.CharField(max_length=150, null=True, blank=True, verbose_name='Ciudad')
     email = models.EmailField(max_length=150, null=True, blank=True, verbose_name='Email', unique=True)
+    
     def __str__(self):
         return self.get_full_name()
     

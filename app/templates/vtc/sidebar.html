@@ -25,6 +25,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{% url 'erp:proveedor_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>
+                            Proveedores
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'erp:marca_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>
+                            Marcas
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{% url 'erp:product_list' %}" class="nav-link">
                         <i class="nav-icon fas fa-boxes"></i>
                         <p>
@@ -53,6 +69,14 @@
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>
                             Reportes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'sale_report' %}" class="nav-link">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                            Notificaciones
                         </p>
                     </a>
                 </li>

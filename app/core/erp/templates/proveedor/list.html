@@ -1,0 +1,12 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %}
+<script src="{% static 'proveedor/js/list.js' %}"></script>
+{% endblock %} {% block columns %}
+<tr>
+    <th scope="col">NÚMERO</th>
+    <th scope="col">EMPRESA PROVEEDORA</th>
+    <th scope="col">RUT</th>
+    <th scope="col">CONTACTO</th>
+    <th scope="col">EMAIL</th>
+    <th scope="col">OPCIONES</th>
+</tr>
+{% endblock %} {% block javascript %} {% endblock %}

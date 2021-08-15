@@ -1,3 +1,4 @@
+from core.erp.views.marca.views import *
 from django.urls import path
 from core.erp.views.category.views import *
 from core.erp.views.client.views import *
@@ -5,6 +6,7 @@ from core.erp.views.dashboard.views import *
 from core.erp.views.product.views import *
 from core.erp.views.sale.views import *
 from core.erp.views.tests.views import TestView
+from core.erp.views.proveedor.views import *
 
 app_name = 'erp'
 
@@ -34,6 +36,18 @@ urlpatterns = [
     path('sale/delete/<int:pk>/', SaleDeleteView.as_view(), name='sale_delete'),
     path('sale/update/<int:pk>/', SaleUpdateView.as_view(), name='sale_update'),
     path('sale/invoice/pdf/<int:pk>/', SaleInvoicePDFView.as_view(), name='sale_invoice_pdf'),
+    # proveedor
+    path('proveedor/list/', ProveedorListView.as_view(), name='proveedor_list'),
+    path('proveedor/add/', ProveedorCreateView.as_view(), name='proveedor_create'),
+    path('proveedor/update/<int:pk>/',
+        ProveedorUpdateView.as_view(), name='proveedor_update'),
+    path('proveedor/delete/<int:pk>/',
+        ProveedorDeleteView.as_view(), name='proveedor_delete'),
+    # brand
+    path('brand/list/', MarcaListView.as_view(), name='marca_list'),
+    path('brand/add/', MarcaCreateView.as_view(), name='marca_create'),
+    path('brand/update/<int:pk>/', MarcaUpdateView.as_view(), name='marca_update'),
+    path('brand/delete/<int:pk>/', MarcaDeleteView.as_view(), name='marca_delete'),
 
     
 

@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../:\Proyectos\Python\Django\Lift Servicios Versiones 7.0 en Adelante\Lift Servicios v29.0 (Listado con Modal + PDF)\app\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

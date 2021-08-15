@@ -14,6 +14,8 @@ $(function() {
         },
         columns: [
             { "data": "position" },
+            { "data": "proveedor.name" },
+            { "data": "marca" },
             { "data": "name" },
             { "data": "cat.name" },
             { "data": "image" },
