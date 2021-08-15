@@ -9,5 +9,8 @@ de la Universidad Tecnológica de Chile INACAP.
 Este proycto tiene como finalidad poder entregar un servicio a una empresa, la cual nos solicitó realizar una aplicación que les permitiera manejar información por medio de una
 aplicación (sea esta web, móvil de escritorio) con el objetivo de poder manejar la información de una manera digital y dejar de lado todo lo que es el manejo del papel.
 
+URL inicial: localhost:8000/login
 
 
+
+![Captura](https://user-images.githubusercontent.com/21320786/127536030-bacff6ad-62a0-40bb-9853-036c07fad9a4.PNG)
