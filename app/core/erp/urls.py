@@ -1,3 +1,4 @@
+from core.erp.views.formapago.views import *
 from core.erp.views.marca.views import *
 from django.urls import path
 from core.erp.views.category.views import *
@@ -7,6 +8,7 @@ from core.erp.views.product.views import *
 from core.erp.views.sale.views import *
 from core.erp.views.tests.views import TestView
 from core.erp.views.proveedor.views import *
+from core.erp.views.permissions.views import *
 
 app_name = 'erp'
 
@@ -39,16 +41,22 @@ urlpatterns = [
     # proveedor
     path('proveedor/list/', ProveedorListView.as_view(), name='proveedor_list'),
     path('proveedor/add/', ProveedorCreateView.as_view(), name='proveedor_create'),
-    path('proveedor/update/<int:pk>/',
-        ProveedorUpdateView.as_view(), name='proveedor_update'),
-    path('proveedor/delete/<int:pk>/',
-        ProveedorDeleteView.as_view(), name='proveedor_delete'),
+    path('proveedor/update/<int:pk>/', ProveedorUpdateView.as_view(), name='proveedor_update'),
+    path('proveedor/delete/<int:pk>/', ProveedorDeleteView.as_view(), name='proveedor_delete'),
     # brand
-    path('brand/list/', MarcaListView.as_view(), name='marca_list'),
-    path('brand/add/', MarcaCreateView.as_view(), name='marca_create'),
-    path('brand/update/<int:pk>/', MarcaUpdateView.as_view(), name='marca_update'),
-    path('brand/delete/<int:pk>/', MarcaDeleteView.as_view(), name='marca_delete'),
-
-    
-
+    path('marca/list/', MarcaListView.as_view(), name='marca_list'),
+    path('marca/add/', MarcaCreateView.as_view(), name='marca_create'),
+    path('marca/update/<int:pk>/', MarcaUpdateView.as_view(), name='marca_update'),
+    path('marca/delete/<int:pk>/', MarcaDeleteView.as_view(), name='marca_delete'),
+    #forma pago
+    path('formapago/list/', FormaPagoListView.as_view(), name='formapago_list'),
+    path('formapago/add/', FormaPagoCreateView.as_view(), name='formapago_create'),
+    path('formapago/update/<int:pk>/', FormaPagoUpdateView.as_view(), name='formapago_update'),
+    path('formapago/delete/<int:pk>/', FormaPagoDeleteView.as_view(), name='formapago_delete'),
+    #groups
+    path('groupgroup/list/', GroupListView.as_view(), name='group_list'),
+    path('group/add/', GroupCreateView.as_view(), name='group_create'),
+    path('group/update/<int:pk>/',
+        GroupUpdateView.as_view(), name='gorup_update'),
+    path('group/delete/<int:pk>/', GroupDeleteView.as_view(), name='group_delete'),
 ]

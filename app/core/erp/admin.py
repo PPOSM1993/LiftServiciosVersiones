@@ -8,3 +8,6 @@ admin.site.register(Marca)
 admin.site.register(Client)
 admin.site.register(Product)
 admin.site.register(Sale)
+admin.site.register(FormaPagos)
+
+

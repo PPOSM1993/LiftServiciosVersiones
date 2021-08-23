@@ -16,7 +16,6 @@ $(function() {
             { "data": "position" },
             { "data": "name" },
             { "data": "desc" },
-            //{ "data": "desc" },
         ],
         columnDefs: [{
             targets: [-1],

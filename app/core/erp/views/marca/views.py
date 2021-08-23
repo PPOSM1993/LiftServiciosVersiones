@@ -81,7 +81,7 @@ class MarcaCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Creat
 
 class MarcaUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
     model = Marca
-    form_class = Marca
+    form_class = MarcaForm
     template_name = 'marca/create.html'
     success_url = reverse_lazy('erp:marca_list')
     permission_required = 'erp.change_marca'
@@ -117,7 +117,7 @@ class MarcaDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delet
     model = Marca
     template_name = 'marca/delete.html'
     success_url = reverse_lazy('erp:marca_list')
-    permission_required = 'erp.marca_brand'
+    permission_required = 'erp.delete_marca'
     url_redirect = success_url
 
     def dispatch(self, request, *args, **kwargs):

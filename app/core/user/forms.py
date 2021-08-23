@@ -3,7 +3,6 @@ from django.forms import *
 
 from core.user.models import *
 
-
 class UserForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -50,7 +49,7 @@ class UserForm(ModelForm):
             )
         }
         exclude = ['user_permissions', 'last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff']
-
+        
     def save(self, commit=True):
         data = {}
         form = super()
@@ -136,3 +135,6 @@ class UserProfileForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+
+

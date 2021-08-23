@@ -4,6 +4,7 @@ var vents = {
         cli: '',
         date_joined: '',
         subtotal: 0.00,
+        formapago: '',
         iva: 0.00,
         total: 0.00,
         products: []
@@ -150,7 +151,6 @@ $(function() {
         .val(0.19);
 
     //search clients
-
     $('select[name="cli"]').select2({
         theme: "bootstrap4",
         language: 'es',
@@ -175,16 +175,12 @@ $(function() {
         placeholder: 'Ingrese una descripción',
         minimumInputLength: 1,
     });
-
     $('.btnAddClient').on('click', function() {
         $('#myModalClient').modal('show');
     });
-
     $('#myModalClient').on('hidden.bs.modal', function(e) {
         $('#frmClient').trigger('reset');
     });
-
-
     $('#frmClient').on('submit', function(e) {
         e.preventDefault();
         var parameters = new FormData(this);
@@ -195,7 +191,6 @@ $(function() {
             $('#myModalClient').modal('hide');
         });
     });
-
     $('.btnRemoveAll').on('click', function() {
         if (vents.items.products.length === 0) return false;
         alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?', function() {
@@ -203,6 +198,7 @@ $(function() {
             vents.list();
         });
     });
+
 
     // event cant
     $('#tblProducts tbody')
@@ -237,6 +233,7 @@ $(function() {
 
         vents.items.date_joined = $('input[name="date_joined"]').val();
         vents.items.cli = $('select[name="cli"]').val();
+        vents.items.formapago = $('select[name="formapago"]').val();
         var parameters = new FormData();
         parameters.append('action', $('input[name="action"]').val());
         parameters.append('vents', JSON.stringify(vents.items));

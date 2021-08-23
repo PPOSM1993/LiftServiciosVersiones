@@ -12,8 +12,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
 
-
-
 class UserListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = User
     template_name = 'user/list.html'

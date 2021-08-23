@@ -107,6 +107,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     sale = Sale()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
+                    sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
                     sale.iva = float(vents['iva'])
                     sale.total = float(vents['total'])
@@ -192,7 +193,9 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     sale = self.get_object()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
+                    sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
+                    sale.formapago_id = vents['formapago']
                     sale.iva = float(vents['iva'])
                     sale.total = float(vents['total'])
                     sale.save()
@@ -304,7 +307,8 @@ class SaleInvoicePDFView(View):
             template = get_template('sale/invoice.html')
             context = {'sale': Sale.objects.get(pk=self.kwargs['pk']),
                 'comp': {'name': 'Lift Servicios', 'rut': '18.484.885-6', 'address': 'Arturo Perez Canto 02195 Temuco, Chile', 
-                        'email': 'algo@liftservicios.cl'
+                        'email': 'algo@liftservicios.cl',
+                        'icon': '{}{}'.format(settings.MEDIA_URL, 'logo.png')
                         },
                 }
             html = template.render(context)

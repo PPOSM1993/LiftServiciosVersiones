@@ -1,12 +1,7 @@
 from datetime import datetime
 from django.forms import ModelForm
 from django.forms import *
-
-#from phonenumber_field.formfields import PhoneNumberField
-#from phonenumber_field.widgets import PhoneNumberPrefixWidget
-
 from core.erp.models import *
-
 
 class CategoryForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -43,7 +38,6 @@ class CategoryForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-
 
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -97,7 +91,6 @@ class ProveedorForm(ModelForm):
             data['error'] = str(e)
         return data
 
-
 class MarcaForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -112,13 +105,6 @@ class MarcaForm(ModelForm):
                     'placeholder': 'Nombre Marca',
                 }
             ),
-            #'desc': Textarea(
-            #    attrs={
-            #        'placeholder': 'Descripción Marca',
-            #        'rows': 3,
-            #        'cols': 3
-            #    }
-            #),
         }
 
     def save(self, commit=True):
@@ -132,7 +118,6 @@ class MarcaForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-    
 
 class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -155,17 +140,16 @@ class ProductForm(ModelForm):
                 }
             ),
             'proveedor': Select(
-                attrs = {
-                    'class': 'select2',
-                    'style': 'width: 100%'
-                }
-            ),
-            'brand': Select(
                 attrs={
                     'class': 'select2',
-                    'style': 'width: 100%'
-                }
-            )
+                    'style': 'width:100%',
+            }),
+            'marca': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width:100%',
+            }),
+            
         }
 
     def save(self, commit=True):
@@ -179,7 +163,6 @@ class ProductForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
-
 
 class ClientForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -239,7 +222,6 @@ class ClientForm(ModelForm):
             data['error'] = str(e)
         return data
 
-
 class TestForm(Form):
     categories = ModelChoiceField(queryset=Category.objects.all(), widget=Select(attrs={
         'class': 'form-control select2',
@@ -255,11 +237,37 @@ class TestForm(Form):
         'style': 'width: 100%'
     }))
 
+class FormaPagoForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+        
+    class Meta:
+        model = FormaPagos
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese Nombre Forma de Pago',
+                }
+            ),
+        }
+        
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 class SaleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
     class Meta:
         model = Sale
         fields = '__all__'
@@ -278,6 +286,11 @@ class SaleForm(ModelForm):
                     'data-toggle': 'datetimepicker'
                 }
             ),
+            'formapago': Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width:100%'
+            }),
             'iva': TextInput(attrs={
                 'class': 'form-control',
                 'readonly': True
@@ -291,3 +304,37 @@ class SaleForm(ModelForm):
                 'class': 'form-control',
             })
         }
+
+class GroupPermissionForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Group
+        fields = 'name', 'permissions'
+        widgets = {
+            'name': TextInput(
+                attrs = {
+                    'placeholder': 'Nombre Grupo',
+                }
+            ),
+            'permissions': SelectMultiple(
+                attrs = {
+                    'rows': 10
+                }
+            )
+        }
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data

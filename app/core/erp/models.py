@@ -1,8 +1,8 @@
 from datetime import datetime
-
 from django.db import models
 from django.forms import model_to_dict
 from django.core.validators import RegexValidator
+from django.contrib.auth.models import Group
 
 from config.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
@@ -22,7 +22,6 @@ class Category(models.Model):
         verbose_name = 'Categoria'
         verbose_name_plural = 'Categorias'
         ordering = ['id']
-
 
 class Proveedor(models.Model):
     
@@ -54,9 +53,8 @@ class Proveedor(models.Model):
         ordering = ['id']
 
 class Marca(models.Model):
-    name = models.CharField(max_length=150, verbose_name='Nombre Marca', unique=True)
-    #desc = models.CharField(max_length=500, null=True,
-    #                        blank=True, verbose_name='Descripción Marca')
+    name = models.CharField(
+        max_length=150, verbose_name='Nombre Marca', unique=True)
     
     def __str__(self):
         return self.name
@@ -69,7 +67,6 @@ class Marca(models.Model):
         verbose_name = 'Marca'
         verbose_name_plural = 'Marcas'
         ordering = ['id']
-
 
 class Product(models.Model):
     
@@ -103,7 +100,6 @@ class Product(models.Model):
         verbose_name_plural = 'Productos'
         ordering = ['id']
 
-
 class Client(models.Model):
     names = models.CharField(max_length=150, verbose_name='Empresa')
     #dni_regex = RegexValidator(regex=r'^(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$', message="Formato de Rut Incorrecto.")
@@ -128,16 +124,32 @@ class Client(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         return item
-
+    
+    
     class Meta:
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
         ordering = ['id']
 
+class FormaPagos(models.Model):
+    
+    name = models.CharField(max_length=150, verbose_name='Forma de Pago', unique=True)
+    
+    def __str__(self):
+        return self.name
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+    class Meta:
+        verbose_name = 'Forma de Pago'
+        verbose_name_plural = 'Formas de Pago'
+        ordering = ['id']
 
 class Sale(models.Model):
     cli = models.ForeignKey(Client, on_delete=models.PROTECT)
     date_joined = models.DateField(default=datetime.now)
+    formapago = models.ForeignKey(FormaPagos, on_delete=models.PROTECT)
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -161,8 +173,8 @@ class Sale(models.Model):
         verbose_name_plural = 'Ventas'
         ordering = ['id'] 
 
-
 class DetSale(models.Model):
+    
     sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
     prod = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0)
@@ -184,3 +196,18 @@ class DetSale(models.Model):
         verbose_name = 'Detalle de Venta'
         verbose_name_plural = 'Detalle de Ventas'
         ordering = ['id']
+
+
+class Group(Group, models.Model):
+
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    def toJSON(self):
+        item = model_to_dict(
+            self, exclude=['groups', 'permissions'])
+        return item
