@@ -39,6 +39,41 @@ class CategoryForm(ModelForm):
             data['error'] = str(e)
         return data
 
+class SubCategoryForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['subcat'].widget.attrs['autofocus'] = True
+        
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+        widgets = {
+            'subcat': TextInput(
+                attrs = {
+                    'placeholder': 'Subcategoría'
+                }
+            ), 
+            'cat': Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width:100%'
+                }
+            ),
+        }
+        
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+        
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

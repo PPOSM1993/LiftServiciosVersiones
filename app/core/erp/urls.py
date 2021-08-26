@@ -2,6 +2,7 @@ from core.erp.views.formapago.views import *
 from core.erp.views.marca.views import *
 from django.urls import path
 from core.erp.views.category.views import *
+from core.erp.views.subcategory.views import *
 from core.erp.views.client.views import *
 from core.erp.views.dashboard.views import *
 from core.erp.views.product.views import *
@@ -18,6 +19,11 @@ urlpatterns = [
     path('category/add/', CategoryCreateView.as_view(), name='category_create'),
     path('category/update/<int:pk>/', CategoryUpdateView.as_view(), name='category_update'),
     path('category/delete/<int:pk>/', CategoryDeleteView.as_view(), name='category_delete'),
+    # subcategory
+    path('subcategory/list/', SubCategoryListView.as_view(), name='subcategory_list'),
+    path('subcategory/add/', SubCategoryCreateView.as_view(), name='subcategory_create'),
+    path('subcategory/update/<int:pk>/', SubCategoryUpdateView.as_view(), name='subcategory_update'),
+    path('subcategory/delete/<int:pk>/', SubCategoryDeleteView.as_view(), name='subcategory_delete'),
     # client
     path('client/list/', ClientListView.as_view(), name='client_list'),
     path('client/add/', ClientCreateView.as_view(), name='client_create'),

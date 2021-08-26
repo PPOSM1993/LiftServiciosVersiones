@@ -15,7 +15,7 @@ $(function() {
         columns: [
             { "data": "position" },
             { "data": "name" },
-            { "data": "desc" },
+            { "data": "id" },
         ],
         columnDefs: [{
             targets: [-1],

@@ -3,6 +3,7 @@ from django.db import models
 from django.forms import model_to_dict
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser
 
 from config.settings import MEDIA_URL, STATIC_URL
 from core.models import BaseModel
@@ -23,9 +24,26 @@ class Category(models.Model):
         verbose_name_plural = 'Categorias'
         ordering = ['id']
 
+class SubCategory(models.Model):
+    subcat =  models.CharField(max_length=150, verbose_name='Nombre', unique=True)
+    cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
+    
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['cat'] = self.cat.toJSON()
+        return item
+
+    class Meta:
+        verbose_name = 'Subcategoria'
+        verbose_name_plural = 'Subcategorias'
+        ordering = ['id']
+
 class Proveedor(models.Model):
     
-    name = models.CharField(max_length=150, verbose_name='Empresa Proveedora')
+    name = models.CharField(max_length=150, verbose_name='Empresa Proveedora', unique=True)
     rut_regex = RegexValidator(
         regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
     rut = models.CharField(
@@ -86,6 +104,7 @@ class Product(models.Model):
         item = model_to_dict(self)
         item['cat'] = self.cat.toJSON()
         item['proveedor'] = self.proveedor.toJSON()
+        item['marca'] = self.marca.toJSON()
         item['image'] = self.get_image()
         item['pvp'] = format(self.pvp, '.2f')
         return item
@@ -100,8 +119,8 @@ class Product(models.Model):
         verbose_name_plural = 'Productos'
         ordering = ['id']
 
-class Client(models.Model):
-    names = models.CharField(max_length=150, verbose_name='Empresa')
+class Client(models.Model): 
+    names = models.CharField(max_length=150, verbose_name='Empresa', unique=True)
     #dni_regex = RegexValidator(regex=r'^(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$', message="Formato de Rut Incorrecto.")
     dni_regex = RegexValidator(
         regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
@@ -196,7 +215,6 @@ class DetSale(models.Model):
         verbose_name = 'Detalle de Venta'
         verbose_name_plural = 'Detalle de Ventas'
         ordering = ['id']
-
 
 class Group(Group, models.Model):
 

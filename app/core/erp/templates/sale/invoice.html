@@ -36,7 +36,7 @@
 
 <body>
 
-    <p class="head" style="font-size: 16px;">
+    <p class="head" style="font-size: 20px;">
         {{ comp.name|upper }}<br> {{ comp.rut }}<br> {{ comp.address|upper }} <br> {{comp.email|upper}}
     </p>
     <p>
@@ -53,36 +53,47 @@
     <table id="invoice">
         <thead>
             <tr>
-                <th>CANTIDAD</th>
-                <th>PRECIO UNITARIO</th>
-                <th>CATEGORIA</th>
-                <th>PRODUCTO</th>
-                <th>MARCA</th>
-                <th>TOTAL + IVA</th>
+                <th style="text-align: center;">CANTIDAD</th>
+                <th style="text-align: center;">PRECIO UNITARIO</th>
+                <th style="text-align: center;">CATEGORIA</th>
+                <th style="text-align: center;">PRODUCTO</th>
+                <th style="text-align: center;">MARCA</th>
+                <th style="text-align: center;">TOTAL + IVA</th>
             </tr>
         </thead>
         <tbody>
             {% for d in sale.detsale_set.all %}
             <tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
-                <td class="text-left">{{ d.cant }}</td>
-                <td class="text-left">$ {{ d.price }}</td>
-                <td>{{ d.prod.cat.name }}</td>
-                <td>{{ d.prod.name }}</td>
-                <td>{{ d.prod.marca.name }}</td>
-                <td style="text-align: left;">$ {{ d.subtotal }}</td>
+                <td class="text-center">{{ d.cant }}</td>
+                <td class="text-center">$ {{ d.price }}</td>
+                <td class="text-center">{{ d.prod.cat.name }}</td>
+                <td class="text-center">{{ d.prod.name }}</td>
+                <td class="text-center">{{ d.prod.marca.name }}</td>
+                <td class="text-center">$ {{ d.subtotal }}</td>
             </tr>
             {% endfor %}
-            <tr style="border-top: 1px solid black; padding-top: 4px;"></tr>
-            <td colspan="4"><b>SUBTOTAL:</b></td>
-            <td style="text-align: right"><b>$ {{ sale.subtotal }}</b></td>
-            </tr>
-            <tr style="padding-right: 2px;">
-                <td colspan="4"><b>IVA 19%:</b></td>
-                <td style="text-align: right"><b>$ {{ sale.iva }}</b></td>
-            </tr>
-            <tr style="padding-top: 2px;">
-                <td colspan="4"><b>TOTAL A PAGAR:</b></td>
-                <td style="text-align: right"><b> $ {{ sale.total }}</b></td>
+            <tr>
+                <tr style="border-top: 1px solid black; padding-top: 4px;"></tr>
+                <tr style="padding-right: 2px;">
+                    <td colspan="4"><b>SUBTOTAL:</b></td>
+                    <td>
+                        <td style="text-align: center;"><b>$ {{ sale.subtotal }}</b></td>
+                    </td>
+                </tr>
+                <tr style="border-top: 1px solid black; padding-top: 4px;"></tr>
+                <tr style="padding-right: 2px;">
+                    <td colspan="4"><b>IVA 19%:</b></td>
+                    <td>
+                        <td style="text-align: center;"><b>$ {{ sale.iva }}</b></td>
+                    </td>
+                </tr>
+                <tr style="border-top: 1px solid black; padding-top: 4px;"></tr>
+                <tr style="padding-top: 2px;">
+                    <td colspan="4"><b>TOTAL A PAGAR:</b></td>
+                    <td>
+                        <td style="text-align: center;"><b> $ {{ sale.total }}</b></td>
+                    </td>
+                </tr>
             </tr>
         </tbody>
     </table>
@@ -91,8 +102,13 @@
             <tr>
                 <th>****GRACIAS POR SU COMPRA****</th>
             </tr>
+            <p></p>
             <tr>
                 <th>DEVOLUCIONES ANTES DE LOS PRIMEROS 15 DÍAS</th>
+            </tr>
+            <p></p>
+            <tr>
+                <th>DEVOLUCIONES SIEMPRE Y CUANDO REPUESTOS PRESENTEN FALLAS</th>
             </tr>
         </thead>
     </table>

@@ -1,5 +1,4 @@
-from django.db.models.aggregates import Count
-from django.shortcuts import render
+
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
@@ -8,11 +7,11 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from django.views.generic.list import ListView
+#from django.views.generic.list import ListView
 
 from core.erp.models import *
+from core.erp.forms import *
 
-from random import randint
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -77,9 +76,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         except:
             pass
         return data
-        
+    
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = 'Panel de administrador'
         context['graph_sales_year_month'] = self.get_graph_sales_year_month()
         return context
+
+
