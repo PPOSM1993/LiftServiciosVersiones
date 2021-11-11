@@ -24,10 +24,10 @@ class Category(models.Model):
         verbose_name_plural = 'Categorias'
         ordering = ['id']
 
-class SubCategory(models.Model):
-    subcat =  models.CharField(max_length=150, verbose_name='Nombre', unique=True)
+class Subcategory(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
-    
+
     def __str__(self):
         return self.name
 
@@ -90,6 +90,7 @@ class Product(models.Model):
     
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
+    subcat = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name='Subcategoría')
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT, verbose_name='Proveedor')
     marca = models.ForeignKey(
         Marca, on_delete=models.PROTECT, verbose_name='Marca')
@@ -121,7 +122,6 @@ class Product(models.Model):
 
 class Client(models.Model): 
     names = models.CharField(max_length=150, verbose_name='Empresa', unique=True)
-    #dni_regex = RegexValidator(regex=r'^(\d{1,3}(?:\.\d{1,3}){2}-[\dkK])$', message="Formato de Rut Incorrecto.")
     dni_regex = RegexValidator(
         regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
     dni = models.CharField(
@@ -150,25 +150,9 @@ class Client(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['id']
 
-class FormaPagos(models.Model):
-    
-    name = models.CharField(max_length=150, verbose_name='Forma de Pago', unique=True)
-    
-    def __str__(self):
-        return self.name
-    
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-    class Meta:
-        verbose_name = 'Forma de Pago'
-        verbose_name_plural = 'Formas de Pago'
-        ordering = ['id']
-
 class Sale(models.Model):
     cli = models.ForeignKey(Client, on_delete=models.PROTECT)
     date_joined = models.DateField(default=datetime.now)
-    formapago = models.ForeignKey(FormaPagos, on_delete=models.PROTECT)
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -229,3 +213,66 @@ class Group(Group, models.Model):
         item = model_to_dict(
             self, exclude=['groups', 'permissions'])
         return item
+
+class Department(models.Model):
+    
+    name = models.CharField(max_length=100, unique=True, verbose_name="Departamento")
+    
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'Departamento'
+        verbose_name_plural = 'Departamentos'
+        ordering = ['id']
+
+class Cargos(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Cargo")
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, verbose_name='Departamento')
+    
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['department'] = self.department.toJSON()
+        return item
+
+    class Meta:
+        verbose_name = 'Cargo'
+        verbose_name_plural = 'Cargos'
+        ordering = ['id']
+
+class Trabajador(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Nombre")
+    last_name = models.CharField(max_length=100, unique=True, verbose_name="Apellido")
+    dni_regex = RegexValidator(
+        regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
+    dni = models.CharField(
+        validators=[dni_regex], max_length=12, unique=True, verbose_name='RUT')
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="El número de telefono debe tener el siguiente: '+999999999'. Up to 15 digits allowed.")
+    phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, unique=True, verbose_name="Telefono") # validators should be a list
+    address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
+    city = models.CharField(max_length=150, null=True, blank=True, verbose_name='Ciudad')
+    email = models.EmailField(max_length=150, null=True, blank=True, verbose_name='Email', unique=True)
+    department = models.ForeignKey(Department, on_delete=models.PROTECT, verbose_name='Departamento')
+    cargo = models.ForeignKey(Cargos, on_delete=models.PROTECT, verbose_name='Cargo')
+    
+
+    def __str__(self):
+        return self.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['department'] = self.department.toJSON()
+        item['cargo'] = self.cargo.toJSON()
+        return item
+
+    class Meta:
+        verbose_name = 'Venta'
+        verbose_name_plural = 'Ventas'
+        ordering = ['id'] 

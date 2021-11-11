@@ -6,8 +6,8 @@ from django.db.models.functions import Coalesce
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
-#from django.views.generic.list import ListView
+from django.views.generic import TemplateView, View
+
 
 from core.erp.models import *
 from core.erp.forms import *
@@ -81,6 +81,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = 'Panel de administrador'
+        context['clients'] = Client.objects.all().count()
+        context['stock'] = Product.objects.all().count()
+        context['proveedor'] = Proveedor.objects.all().count()
+        context['sale'] = Sale.objects.all().count()
         context['graph_sales_year_month'] = self.get_graph_sales_year_month()
         return context
 

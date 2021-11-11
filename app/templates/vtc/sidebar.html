@@ -65,14 +65,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'erp:formapago_list' %}" class="nav-link">
-                        <i class="nav-icon fas fa-credit-card"></i>
-                        <p>
-                            Formas de Pago
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{% url 'erp:sale_list' %}" class="nav-link">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
@@ -97,6 +89,30 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{% url 'erp:department_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-lock"></i>
+                        <p>
+                            Departamentos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'erp:cargos_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-lock"></i>
+                        <p>
+                            Cargos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'erp:trabajador_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-user-plus"></i>
+                        <p>
+                            Trabajadores Lift Servicios
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{% url 'user:user_list' %}" class="nav-link">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
@@ -104,14 +120,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'sale_report' %}" class="nav-link">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>
-                            Tareas
-                        </p>
-                    </a>
-                </li>
+
                 <br>
             </ul>
         </nav>

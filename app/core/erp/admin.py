@@ -28,16 +28,11 @@ class MacarAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = MarcaResource
 
 
-class FormaPagosResource(resources.ModelResource):
-    class Meta:
-        model = FormaPagos
-        fields = ('name')
 
 
 class FormaPagosAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['name']
-    resource_class = FormaPagosResource
 
 
 admin.site.register(Category, CategoryAdmin)
@@ -46,7 +41,6 @@ admin.site.register(Marca, MacarAdmin)
 admin.site.register(Client)
 admin.site.register(Product)
 admin.site.register(Sale)
-admin.site.register(FormaPagos, FormaPagosAdmin)
-#admin.site.register(Group)
+admin.site.register(Department)
 
 

@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -8,7 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from core.erp.forms import ProductForm
 from core.erp.mixins import ValidatePermissionRequiredMixin
-from core.erp.models import Product
+from core.erp.models import Category, Product
 
 
 class ProductListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):

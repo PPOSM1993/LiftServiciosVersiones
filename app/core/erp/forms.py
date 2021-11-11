@@ -6,8 +6,8 @@ from core.erp.models import *
 class CategoryForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.fields['name'].widget.attrs['autofocus'] = True
+
 
     class Meta:
         model = Category
@@ -40,27 +40,26 @@ class CategoryForm(ModelForm):
         return data
 
 class SubCategoryForm(ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['subcat'].widget.attrs['autofocus'] = True
-        
+        self.fields['name'].widget.attrs['autofocus'] = True
+
     class Meta:
-        model = SubCategory
+        model = Subcategory
         fields = '__all__'
         widgets = {
-            'subcat': TextInput(
-                attrs = {
-                    'placeholder': 'Subcategoría'
-                }
-            ), 
-            'cat': Select(
+            'name': TextInput(
                 attrs={
-                    'class': 'form-control select2',
-                    'style': 'width:100%'
+                    'placeholder': 'Ingrese Nombre Cargo',
                 }
             ),
+            'cat': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+            }),
         }
-        
     def save(self, commit=True):
         data = {}
         form = super()
@@ -73,7 +72,6 @@ class SubCategoryForm(ModelForm):
             data['error'] = str(e)
         return data
 
-        
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -174,6 +172,12 @@ class ProductForm(ModelForm):
                     'style': 'width: 100%'
                 }
             ),
+            'subcat': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+                }
+            ),
             'proveedor': Select(
                 attrs={
                     'class': 'select2',
@@ -184,7 +188,6 @@ class ProductForm(ModelForm):
                     'class': 'select2',
                     'style': 'width:100%',
             }),
-            
         }
 
     def save(self, commit=True):
@@ -272,34 +275,6 @@ class TestForm(Form):
         'style': 'width: 100%'
     }))
 
-class FormaPagoForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs['autofocus'] = True
-        
-    class Meta:
-        model = FormaPagos
-        fields = '__all__'
-        widgets = {
-            'name': TextInput(
-                attrs={
-                    'placeholder': 'Ingrese Nombre Forma de Pago',
-                }
-            ),
-        }
-        
-    def save(self, commit=True):
-        data = {}
-        form = super()
-        try:
-            if form.is_valid():
-                form.save()
-            else:
-                data['error'] = form.errors
-        except Exception as e:
-            data['error'] = str(e)
-        return data
-
 class SaleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -360,6 +335,141 @@ class GroupPermissionForm(ModelForm):
                     'rows': 10
                 }
             )
+        }
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+class DepartmentForm(ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    
+    class Meta:
+        model = Department
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese Nombre Departamento',
+                }
+            ),
+        }
+        
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+class CargoForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    
+    class Meta:
+        model = Cargos
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese Nombre Cargo',
+                }
+            ),
+            'department': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+            }),
+        }
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
+class TrabajadorForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Trabajador
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese un nombre',
+                }
+            ),
+            'last_name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese un nombre',
+                }
+            ),
+            'dni': TextInput(
+                attrs={
+                    'placeholder': 'RUT (Use puntos y guión  - EJ: 11.111.111-1)',
+                }
+            ),
+            'phone': TextInput(
+                attrs={
+                    'placeholder': 'Contacto Telefonico',
+                },
+            ),
+            'address': TextInput(
+                attrs={
+                    'placeholder': 'Dirección',
+                }
+            ),
+            'city': TextInput(
+                attrs={
+                    'placeholder': 'Ciudad',
+                }
+            ),
+            'email': TextInput(
+                attrs={
+                    'placeholder': 'Email',
+                }
+            ),
+            'department': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+                }
+            ),
+            'cargo': Select(
+                attrs={
+                    'class': 'select2',
+                    'style': 'width: 100%'
+                }
+            ),
+
         }
 
     def save(self, commit=True):

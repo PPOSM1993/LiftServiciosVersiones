@@ -1,0 +1,20 @@
+.body {
+    background-color: rgba(236, 135, 18, 0.897);
+}
+
+h3 {
+    color: rgba(0, 0, 0, 0.719);
+}
+
+b {
+    color: rgba(0, 0, 0, 0.719);
+}
+
+.menulogin {
+    background-color: rgba(236, 135, 18, 0.897);
+    border: none;
+}
+
+.option {
+    color: rgba(0, 0, 0, 0.719);
+}

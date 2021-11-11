@@ -7,9 +7,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from core.erp.forms import ClientForm
 from core.erp.mixins import ValidatePermissionRequiredMixin
 from core.erp.models import Client
+
+
 
 
 class ClientListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
@@ -48,7 +51,8 @@ class ClientListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListVi
         return context
 
 
-    
+
+
 class ClientCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm

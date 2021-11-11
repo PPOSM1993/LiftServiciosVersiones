@@ -1,0 +1,9 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %}
+<script src="{% static 'group/js/list.js' %}"></script>
+{% endblock %} {% block columns %}
+<tr>
+    <th scope="col" style="width: 25%;">NÚMERO</th>
+    <th scope="col" style="width: 25%;">NOMBRE GRUPO</th>
+    <th scope="col" style="width: 50%;">OPCIONES</th>
+</tr>
+{% endblock %} {% block rows %} {% endblock %} {% block javascript %} {% endblock %}

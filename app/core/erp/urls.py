@@ -1,4 +1,3 @@
-from core.erp.views.formapago.views import *
 from core.erp.views.marca.views import *
 from django.urls import path
 from core.erp.views.category.views import *
@@ -10,6 +9,9 @@ from core.erp.views.sale.views import *
 from core.erp.views.tests.views import TestView
 from core.erp.views.proveedor.views import *
 from core.erp.views.permissions.views import *
+from core.erp.views.department.views import *
+from core.erp.views.cargos.views import *
+from core.erp.views.trabajador.views import *
 
 app_name = 'erp'
 
@@ -54,15 +56,25 @@ urlpatterns = [
     path('marca/add/', MarcaCreateView.as_view(), name='marca_create'),
     path('marca/update/<int:pk>/', MarcaUpdateView.as_view(), name='marca_update'),
     path('marca/delete/<int:pk>/', MarcaDeleteView.as_view(), name='marca_delete'),
-    #forma pago
-    path('formapago/list/', FormaPagoListView.as_view(), name='formapago_list'),
-    path('formapago/add/', FormaPagoCreateView.as_view(), name='formapago_create'),
-    path('formapago/update/<int:pk>/', FormaPagoUpdateView.as_view(), name='formapago_update'),
-    path('formapago/delete/<int:pk>/', FormaPagoDeleteView.as_view(), name='formapago_delete'),
     #groups
     path('groupgroup/list/', GroupListView.as_view(), name='group_list'),
     path('group/add/', GroupCreateView.as_view(), name='group_create'),
     path('group/update/<int:pk>/',
         GroupUpdateView.as_view(), name='gorup_update'),
     path('group/delete/<int:pk>/', GroupDeleteView.as_view(), name='group_delete'),
+    #department
+    path('department/list/', DepartmentListView.as_view(), name='department_list'),
+    path('department/add/', DepartmentCreateView.as_view(), name='department_create'),
+    path('department/update/<int:pk>/', DepartmentUpdateView.as_view(), name='department_update'),
+    path('department/delete/<int:pk>/', DepartmentDeleteView.as_view(), name='department_delete'),
+    #department
+    path('cargos/list/', CargosListView.as_view(), name='cargos_list'),
+    path('cargos/add/', CargosCreateView.as_view(), name='cargos_create'),
+    path('cargos/update/<int:pk>/', CargosUpdateView.as_view(), name='cargos_update'),
+    path('cargos/delete/<int:pk>/', CargosDeleteView.as_view(), name='cargos_delete'),
+    #department
+    path('trabajador/list/', TrabajadorListView.as_view(), name='trabajador_list'),
+    path('trabajador/add/', TrabajadorCreateView.as_view(), name='trabajador_create'),
+    path('trabajador/update/<int:pk>/', TrabajadorUpdateView.as_view(), name='trabajador_update'),
+    path('trabajador/delete/<int:pk>/', TrabajadorDeleteView.as_view(), name='trabajador_delete'),
 ]

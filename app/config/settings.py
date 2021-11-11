@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from decouple import config
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 import config.db as db
 
