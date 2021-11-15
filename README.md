@@ -1,6 +1,6 @@
 # Proyecto_Tesis
 
-Aplicación Web desarrollada en Python, usando el framewor django.
+Aplicación Web desarrollada en Python, usando el framewor Django.
 Esta aplicación incluye tecnologías como JavaScript, AdminLTE3, HTML, CSS, Ajax, JQuery, Bootstrap, entre otras.
 
 Este proyecto será presentado a fin de año en lo que será la defensa del proyecto final para optar al grado de Licenciado en ciencias de ingeniería y tecnologías de la información
