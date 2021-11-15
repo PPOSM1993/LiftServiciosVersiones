@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style>
     .img-invoice {
-        width: 50px;
+        width: 150px;
         text-align: center;
         margin: 0 auto;
     }
@@ -35,8 +35,8 @@
 </style>
 
 <body>
-
-    <p class="head" style="font-size: 20px;">
+    <img src="{{ icon }}" class="img-invoice">
+    <p class="head" style="font-size: 16px;">
         {{ comp.name|upper }}<br> {{ comp.rut }}<br> {{ comp.address|upper }} <br> {{comp.email|upper}}
     </p>
     <p>
@@ -48,7 +48,6 @@
         <b>EMAIL: </b>{{ sale.cli.email|upper}}<br>
         <b>DIRECCIÓN: </b>{{ sale.cli.address|upper }}<br>
         <b>CIUDAD: </b>{{ sale.cli.city|upper }}<br>
-        <b>FORMA PAGO: </b>{{ sale.formapago|upper }}<br>
     </p>
     <table id="invoice">
         <thead>

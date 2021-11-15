@@ -107,7 +107,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     sale = Sale()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
-                    sale.formapago_id = vents['formapago']
+                    #sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
                     sale.iva = float(vents['iva'])
                     sale.total = float(vents['total'])
@@ -193,7 +193,7 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     sale = self.get_object()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
-                    sale.formapago_id = vents['formapago']
+                    #sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
                     sale.formapago_id = vents['formapago']
                     sale.iva = float(vents['iva'])
@@ -273,51 +273,49 @@ class SaleDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Delete
         context['list_url'] = self.success_url
         return context
 
-
 class SaleInvoicePDFView(View):
     
     def link_callback(self, uri, rel):
-        result = finders.find(uri)
-        if result:
-            if not isinstance(result, (list, tuple)):
-                result = [result]
-                result = list(os.path.realpath(path) for path in result)
-                path = result[0]
-            else:
-                sUrl = settings.STATIC_URL        # Typically /static/
-                sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-                mUrl = settings.MEDIA_URL         # Typically /media/
-                mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
 
-                if uri.startswith(mUrl):
-                    path = os.path.join(mRoot, uri.replace(mUrl, ""))
-                elif uri.startswith(sUrl):
-                    path = os.path.join(sRoot, uri.replace(sUrl, ""))
-                else:
-                    return uri
+        sUrl = settings.STATIC_URL  
+        sRoot = settings.STATIC_ROOT  
+        mUrl = settings.MEDIA_URL  
+        mRoot = settings.MEDIA_ROOT  
 
-            # make sure that file exists
-            if not os.path.isfile(path):
-                raise Exception(
-                    'media URI must start with %s or %s' % (sUrl, mUrl)
-                )
-            return path
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri  
+
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
     def get(self, request, *args, **kwargs):
         try:
             template = get_template('sale/invoice.html')
-            context = {'sale': Sale.objects.get(pk=self.kwargs['pk']),
-                'comp': {'name': 'Lift Servicios', 'rut': '18.484.885-6', 'address': 'Arturo Perez Canto 02195 Temuco, Chile', 
-                        'email': 'algo@liftservicios.cl',
-                        'icon': '{}{}'.format(settings.MEDIA_URL, 'logo.png')
+            context = {
+                'sale': Sale.objects.get(pk=self.kwargs['pk']),
+                'comp': {
+                            'rut': '18.484.885-6', 
+                            'address': 'Arturo Perez Canto 02195 Temuco, Chile',
+                            'email': 'algo@liftservicios.cl',
+                            'phone': '45256432145'
                         },
-                }
+                'icon': '{}{}'.format(settings.MEDIA_URL, 'logo.png')
+            }
             html = template.render(context)
             response = HttpResponse(content_type='application/pdf')
             response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-            pisa_status = pisa.CreatePDF(
-                html, dest=response, link_callback=self.link_callback)
+            pisaStatus = pisa.CreatePDF(
+                html, dest=response,
+                link_callback=self.link_callback
+            )
             return response
         except:
             pass
         return HttpResponseRedirect(reverse_lazy('erp:sale_list'))
-

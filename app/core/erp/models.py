@@ -248,6 +248,7 @@ class Cargos(models.Model):
         ordering = ['id']
 
 class Trabajador(models.Model):
+    
     name = models.CharField(max_length=100, unique=True, verbose_name="Nombre")
     last_name = models.CharField(max_length=100, unique=True, verbose_name="Apellido")
     dni_regex = RegexValidator(
@@ -276,3 +277,4 @@ class Trabajador(models.Model):
         verbose_name = 'Venta'
         verbose_name_plural = 'Ventas'
         ordering = ['id'] 
+
