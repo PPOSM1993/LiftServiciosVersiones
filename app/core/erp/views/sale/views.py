@@ -107,7 +107,6 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     sale = Sale()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
-                    #sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
                     sale.iva = float(vents['iva'])
                     sale.total = float(vents['total'])
@@ -142,12 +141,9 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
-
-
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Creación de una Venta'
+        context['title'] = 'Creación Venta'
         context['entity'] = 'Ventas'
         context['list_url'] = self.success_url
         context['action'] = 'add'
@@ -193,9 +189,7 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     sale = self.get_object()
                     sale.date_joined = vents['date_joined']
                     sale.cli_id = vents['cli']
-                    #sale.formapago_id = vents['formapago']
                     sale.subtotal = float(vents['subtotal'])
-                    sale.formapago_id = vents['formapago']
                     sale.iva = float(vents['iva'])
                     sale.total = float(vents['total'])
                     sale.save()
@@ -242,8 +236,6 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
         context['list_url'] = self.success_url
         context['action'] = 'edit'
         context['det'] = json.dumps(self.get_details_product())
-        return context
-
         return context
 
 

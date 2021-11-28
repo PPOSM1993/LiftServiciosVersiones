@@ -39,49 +39,16 @@ class CategoryForm(ModelForm):
             data['error'] = str(e)
         return data
 
-class SubCategoryForm(ModelForm):
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs['autofocus'] = True
-
-    class Meta:
-        model = Subcategory
-        fields = '__all__'
-        widgets = {
-            'name': TextInput(
-                attrs={
-                    'placeholder': 'Ingrese Nombre Cargo',
-                }
-            ),
-            'cat': Select(
-                attrs={
-                    'class': 'select2',
-                    'style': 'width: 100%'
-            }),
-        }
-    def save(self, commit=True):
-        data = {}
-        form = super()
-        try:
-            if form.is_valid():
-                form.save()
-            else:
-                data['error'] = form.errors
-        except Exception as e:
-            data['error'] = str(e)
-        return data
-
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs['autofocus'] = True
+        self.fields['name_prov'].widget.attrs['autofocus'] = True
         
     class Meta:
         model = Proveedor
         fields = '__all__'
         widgets = {
-            'name': TextInput(
+            'name_prov': TextInput(
                 attrs = {
                     'placeholder': 'Empresa Proveedora'
                 }
@@ -296,11 +263,6 @@ class SaleForm(ModelForm):
                     'data-toggle': 'datetimepicker'
                 }
             ),
-            'formapago': Select(
-                attrs={
-                    'class': 'form-control select2',
-                    'style': 'width:100%'
-            }),
             'iva': TextInput(attrs={
                 'class': 'form-control',
                 'readonly': True
@@ -414,10 +376,10 @@ class CargoForm(ModelForm):
         return data
 
 class TrabajadorForm(ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs['autofocus'] = True
-
     class Meta:
         model = Trabajador
         fields = '__all__'
@@ -459,17 +421,14 @@ class TrabajadorForm(ModelForm):
             ),
             'department': Select(
                 attrs={
-                    'class': 'select2',
-                    'style': 'width: 100%'
+                    'class': 'custom-select select2'
                 }
             ),
             'cargo': Select(
                 attrs={
-                    'class': 'select2',
-                    'style': 'width: 100%'
+                    'class': 'custom-select select2'
                 }
             ),
-
         }
 
     def save(self, commit=True):
@@ -483,3 +442,34 @@ class TrabajadorForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+class CompraForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    class Meta:
+        model = Compra
+        fields = '__all__'
+        widgets = {
+            'prove': Select(attrs={
+                'class': 'custom-select select2',
+            }),
+            'date_joined': DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'value': datetime.now().strftime('%Y-%m-%d'),
+                    'autocomplete': 'off',
+                    'class': 'form-control datetimepicker-input',
+                    'id': 'date_joined',
+                    'data-target': '#date_joined',
+                    'data-toggle': 'datetimepicker'
+                }
+            ),
+            'subtotal': TextInput(attrs={
+                'readonly': True,
+                'class': 'form-control',
+            }),
+            'total': TextInput(attrs={
+                'readonly': True,
+                'class': 'form-control',
+            })
+        }

@@ -10,7 +10,8 @@ class User(AbstractUser):
     token = models.UUIDField(
         primary_key=False, editable=False, null=True, blank=True)
     email = models.EmailField(unique=True)
-    
+#    password = models.CharField(max_length=150)
+
     def get_image(self):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)

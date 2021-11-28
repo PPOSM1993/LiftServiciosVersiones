@@ -21,6 +21,7 @@ $(function() {
             { "data": "image" },
             { "data": "stock" },
             { "data": "pvp" },
+            //{ "data": "preciocompra" },
             { "data": "id" },
         ],
         columnDefs: [{

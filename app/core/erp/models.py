@@ -24,23 +24,6 @@ class Category(models.Model):
         verbose_name_plural = 'Categorias'
         ordering = ['id']
 
-class Subcategory(models.Model):
-    name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
-    cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
-
-    def __str__(self):
-        return self.name
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['cat'] = self.cat.toJSON()
-        return item
-
-    class Meta:
-        verbose_name = 'Subcategoria'
-        verbose_name_plural = 'Subcategorias'
-        ordering = ['id']
-
 class Proveedor(models.Model):
     
     name = models.CharField(max_length=150, verbose_name='Empresa Proveedora', unique=True)
@@ -90,14 +73,15 @@ class Product(models.Model):
     
     name = models.CharField(max_length=150, verbose_name='Nombre', unique=True)
     cat = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
-    subcat = models.ForeignKey(Subcategory, on_delete=models.PROTECT, verbose_name='Subcategoría')
     proveedor = models.ForeignKey(Proveedor, on_delete=models.PROTECT, verbose_name='Proveedor')
     marca = models.ForeignKey(
         Marca, on_delete=models.PROTECT, verbose_name='Marca')
     image = models.ImageField(upload_to='product/%Y/%m/%d', null=True, blank=True, verbose_name='Imagen')
     stock = models.IntegerField(default=0, verbose_name='Stock')
-    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Precio de venta')
-
+    pvp = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name='Precio Venta')
+    preciocompra = models.DecimalField(default=0.00, max_digits=9, decimal_places=2, verbose_name="Precio Compra")
+    
+    
     def __str__(self):
         return self.name
 
@@ -107,6 +91,7 @@ class Product(models.Model):
         item['proveedor'] = self.proveedor.toJSON()
         item['marca'] = self.marca.toJSON()
         item['image'] = self.get_image()
+        item['preciocompra'] = format(self.preciocompra, '.2f')
         item['pvp'] = format(self.pvp, '.2f')
         return item
 
@@ -276,5 +261,52 @@ class Trabajador(models.Model):
     class Meta:
         verbose_name = 'Venta'
         verbose_name_plural = 'Ventas'
+        ordering = ['id']
+
+class Compra(models.Model):
+    prove = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
+    date_joined = models.DateField(default=datetime.now)
+    subtotal = models.DecimalField(
+        default=0.00, max_digits=9, decimal_places=2)
+    total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return self.prove.name
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['prove'] = self.prove.toJSON()
+        item['subtotal'] = format(self.subtotal, '.2f')
+        item['total'] = format(self.total, '.2f')
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['det'] = [i.toJSON() for i in self.detcompra_set.all()]
+        return item
+
+    class Meta:
+        verbose_name = 'Venta'
+        verbose_name_plural = 'Ventas'
         ordering = ['id'] 
 
+class DetCompra(models.Model):
+    
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0)
+    cant = models.IntegerField(default=0)
+    subtotal = models.DecimalField(
+        default=0.00, max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return self.prod.name
+
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['sale'])
+        item['prod'] = self.prod.toJSON()
+        item['price'] = format(self.price, '.2f')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        return item
+
+    class Meta:
+        verbose_name = 'Detalle de Venta'
+        verbose_name_plural = 'Detalle de Ventas'
+        ordering = ['id']
