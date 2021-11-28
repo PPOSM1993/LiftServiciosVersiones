@@ -26,7 +26,7 @@ class Category(models.Model):
 
 class Proveedor(models.Model):
     
-    name = models.CharField(max_length=150, verbose_name='Empresa Proveedora', unique=True)
+    names = models.CharField(max_length=150, verbose_name='Empresa Proveedora', unique=True)
     rut_regex = RegexValidator(
         regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
     rut = models.CharField(
@@ -41,7 +41,7 @@ class Proveedor(models.Model):
         return self.get_full_name()
 
     def get_full_name(self):
-        return '{} / {}'.format(self.name, self.rut)
+        return '{} / {}'.format(self.names, self.rut)
     
     
     def toJSON(self):
@@ -263,33 +263,26 @@ class Trabajador(models.Model):
         verbose_name_plural = 'Ventas'
         ordering = ['id']
 
-class Compra(models.Model):
-    prove = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
+
+class Buy(models.Model):
+    prove = models.ForeignKey(Client, on_delete=models.PROTECT)
     date_joined = models.DateField(default=datetime.now)
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 
     def __str__(self):
-        return self.prove.name
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['prove'] = self.prove.toJSON()
-        item['subtotal'] = format(self.subtotal, '.2f')
-        item['total'] = format(self.total, '.2f')
-        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
-        item['det'] = [i.toJSON() for i in self.detcompra_set.all()]
-        return item
+        return self.prove.names
 
     class Meta:
-        verbose_name = 'Venta'
-        verbose_name_plural = 'Ventas'
+        verbose_name = 'Compra'
+        verbose_name_plural = 'Compras'
         ordering = ['id'] 
 
-class DetCompra(models.Model):
+
+class DetBuy(models.Model):
     
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    buy = models.ForeignKey(Buy, on_delete=models.CASCADE)
     prod = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0)
     cant = models.IntegerField(default=0)
@@ -299,14 +292,7 @@ class DetCompra(models.Model):
     def __str__(self):
         return self.prod.name
 
-    def toJSON(self):
-        item = model_to_dict(self, exclude=['sale'])
-        item['prod'] = self.prod.toJSON()
-        item['price'] = format(self.price, '.2f')
-        item['subtotal'] = format(self.subtotal, '.2f')
-        return item
-
     class Meta:
-        verbose_name = 'Detalle de Venta'
-        verbose_name_plural = 'Detalle de Ventas'
+        verbose_name = 'Detalle de Compra'
+        verbose_name_plural = 'Detalle de Compras'
         ordering = ['id']

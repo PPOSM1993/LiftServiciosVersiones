@@ -11,8 +11,8 @@ from import_export import resources
 
 @admin.register(Proveedor)
 class ProveedorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'rut', 'email', 'phone', 'city')
-    search_fields = ('name', 'rut', 'email', 'phone', 'city')
+    list_display = ('names', 'rut', 'email', 'phone', 'city')
+    search_fields = ('names', 'rut', 'email', 'phone', 'city')
     list_per_page = 10
 @admin.register(Marca)
 class MarcaAdmin(admin.ModelAdmin):
