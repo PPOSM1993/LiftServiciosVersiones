@@ -14,7 +14,7 @@ $(function() {
         },
         columns: [
             { "data": "position" },
-            { "data": "name" },
+            { "data": "names" },
             { "data": "rut" },
             { "data": "phone" },
             { "data": "email" },

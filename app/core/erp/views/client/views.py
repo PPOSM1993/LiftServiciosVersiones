@@ -51,8 +51,6 @@ class ClientListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListVi
         return context
 
 
-
-
 class ClientCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Client
     form_class = ClientForm

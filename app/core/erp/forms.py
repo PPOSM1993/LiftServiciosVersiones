@@ -42,13 +42,13 @@ class CategoryForm(ModelForm):
 class ProveedorForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs['autofocus'] = True
+        self.fields['names'].widget.attrs['autofocus'] = True
         
     class Meta:
         model = Proveedor
         fields = '__all__'
         widgets = {
-            'name': TextInput(
+            'names': TextInput(
                 attrs = {
                     'placeholder': 'Empresa Proveedora'
                 }
@@ -447,37 +447,47 @@ class TrabajadorForm(ModelForm):
 class BuyForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        #
-        #
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control'
             form.field.widget.attrs['autocomplete'] = 'off'
         self.fields['prove'].widget.attrs['autofocus'] = True
         self.fields['prove'].widget.attrs['class'] = 'form-control select2'
-        self.fields['prove'].widget.attrs['style'] = 'width: 100%'
+        self.fields['prove'].widget.attrs['style'] = 'width: 84%'
+        
+        self.fields['date_joined'].widget.attrs = {
+            'autocomplete': 'off',
+            'class': 'form-control datetimepicker-input',
+            'id': 'date_joined',
+            'data-target': '#date_joined',
+            'data-toggle': 'datetimepicker'
+        }
 
     class Meta:
         model = Buy
         fields = '__all__'
         widgets = {
-            
             'prove': Select(attrs={
                 'class': 'form-control select2',
-                'style': 'width: 100%'
+                'style': 'width: 80%'
             }),
             'date_joined': DateInput(
-                format = '%Y-%m-%d',
+                format='%Y-%m-%d',
                 attrs = {
                     'value': datetime.now().strftime('%Y-%m-%d'),
-                    }
-                ),
-                'subtotal': TextInput(attrs={
+                    'autocomplete': 'off',
+                    'class': 'form-control datetimepicker-input',
+                    'id': 'date_joined',
+                    'data-target': '#date_joined',
+                    'data-toggle': 'datetimepicker'
+                }
+            ),
+            'subtotal': TextInput(attrs={
                 'readonly': True,
                 'class': 'form-control',
             }),
             'total': TextInput(attrs={
                 'readonly': True,
                 'class': 'form-control',
-            })
             }
-
+        )
+    }

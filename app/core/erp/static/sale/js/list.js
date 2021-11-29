@@ -1,4 +1,4 @@
-/*var tblSale;
+var tblSale;
 $(function() {
     tblSale = $('#data').DataTable({
         responsive: true,
@@ -96,4 +96,4 @@ $(function() {
             $('#myModalDet').modal('show');
 
         });
-});*/
+});

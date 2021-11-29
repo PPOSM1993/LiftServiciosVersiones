@@ -14,14 +14,13 @@ $(function() {
         },
         columns: [
             { "data": "position" },
-            { "data": "proveedor.name" },
+            { "data": "proveedor.names" },
             { "data": "marca.name" },
             { "data": "name" },
             { "data": "cat.name" },
             { "data": "image" },
             { "data": "stock" },
             { "data": "pvp" },
-            //{ "data": "preciocompra" },
             { "data": "id" },
         ],
         columnDefs: [{

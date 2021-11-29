@@ -13,6 +13,7 @@ from core.erp.views.cargos.views import *
 from core.erp.views.trabajador.views import *
 from core.erp.views.buy.views import *
 
+
 app_name = 'erp'
 
 urlpatterns = [
@@ -57,9 +58,7 @@ urlpatterns = [
     path('group/update/<int:pk>/',
         GroupUpdateView.as_view(), name='gorup_update'),
     path('group/delete/<int:pk>/', GroupDeleteView.as_view(), name='group_delete'),
-    #compras
-    #path('compra/list/', CompraListView.as_view(), name='compra_list'),
+    #buy
     path('buy/add/', BuyCreateView.as_view(), name='buy_create'),
-    #path('compra/update/<int:pk>/', CompraUpdateView.as_view(), name='compra_update'),
-    #path('compra/delete/<int:pk>/', CompraDeleteView.as_view(), name='compra_delete'),
+
 ]

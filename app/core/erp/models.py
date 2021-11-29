@@ -263,9 +263,8 @@ class Trabajador(models.Model):
         verbose_name_plural = 'Ventas'
         ordering = ['id']
 
-
 class Buy(models.Model):
-    prove = models.ForeignKey(Client, on_delete=models.PROTECT)
+    prove = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
     date_joined = models.DateField(default=datetime.now)
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
@@ -273,6 +272,11 @@ class Buy(models.Model):
 
     def __str__(self):
         return self.prove.names
+
+    #def toJSON(self):
+    #    item = model_to_dict(self)
+    #    item['cli'] = self.cli.toJSON()
+    #    return item
 
     class Meta:
         verbose_name = 'Compra'
@@ -291,8 +295,8 @@ class DetBuy(models.Model):
 
     def __str__(self):
         return self.prod.name
-
     class Meta:
         verbose_name = 'Detalle de Compra'
         verbose_name_plural = 'Detalle de Compras'
         ordering = ['id']
+
