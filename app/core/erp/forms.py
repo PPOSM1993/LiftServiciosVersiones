@@ -447,28 +447,13 @@ class TrabajadorForm(ModelForm):
 class BuyForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control'
-            form.field.widget.attrs['autocomplete'] = 'off'
-        self.fields['prove'].widget.attrs['autofocus'] = True
-        self.fields['prove'].widget.attrs['class'] = 'form-control select2'
-        self.fields['prove'].widget.attrs['style'] = 'width: 84%'
-        
-        self.fields['date_joined'].widget.attrs = {
-            'autocomplete': 'off',
-            'class': 'form-control datetimepicker-input',
-            'id': 'date_joined',
-            'data-target': '#date_joined',
-            'data-toggle': 'datetimepicker'
-        }
-
     class Meta:
         model = Buy
         fields = '__all__'
         widgets = {
             'prove': Select(attrs={
                 'class': 'form-control select2',
-                'style': 'width: 80%'
+                'style': 'width: 84%'
             }),
             'date_joined': DateInput(
                 format='%Y-%m-%d',

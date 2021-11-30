@@ -273,11 +273,14 @@ class Buy(models.Model):
     def __str__(self):
         return self.prove.names
 
-    #def toJSON(self):
-    #    item = model_to_dict(self)
-    #    item['cli'] = self.cli.toJSON()
-    #    return item
-
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['prove'] = self.prove.toJSON()
+        item['subtotal'] = format(self.subtotal, '.2f')
+        item['total'] = format(self.total, '.2f')
+        item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+        item['det'] = [i.toJSON() for i in self.detbuy_set.all()]
+        return item
     class Meta:
         verbose_name = 'Compra'
         verbose_name_plural = 'Compras'
@@ -295,6 +298,14 @@ class DetBuy(models.Model):
 
     def __str__(self):
         return self.prod.name
+    
+    def toJSON(self):
+        item = model_to_dict(self, exclude=['buy'])
+        item['prod'] = self.prod.toJSON()
+        item['price'] = format(self.price, '.2f')
+        item['subtotal'] = format(self.subtotal, '.2f')
+        return item
+
     class Meta:
         verbose_name = 'Detalle de Compra'
         verbose_name_plural = 'Detalle de Compras'

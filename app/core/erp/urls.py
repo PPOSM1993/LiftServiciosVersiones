@@ -59,6 +59,9 @@ urlpatterns = [
         GroupUpdateView.as_view(), name='gorup_update'),
     path('group/delete/<int:pk>/', GroupDeleteView.as_view(), name='group_delete'),
     #buy
+    path('buy/list/', BuyListView.as_view(), name='buy_list'),
     path('buy/add/', BuyCreateView.as_view(), name='buy_create'),
+    path('buy/delete/<int:pk>/', BuyDeleteView.as_view(), name='buy_delete'),
+    path('buy/update/<int:pk>/', BuyUpdateView.as_view(), name='buy_update'),
 
 ]

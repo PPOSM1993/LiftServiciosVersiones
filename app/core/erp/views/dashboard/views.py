@@ -86,6 +86,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['proveedor'] = Proveedor.objects.all().count()
         context['marca'] = Marca.objects.all().count()
         context['sale'] = Sale.objects.all().count()
+        context['buy'] = Buy.objects.all().count()
         context['graph_sales_year_month'] = self.get_graph_sales_year_month()
         return context
 
