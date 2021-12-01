@@ -207,7 +207,8 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
             elif action == 'search_clients':
                 data = []
                 term = request.POST['term']
-                clients = Client.objects.filter(Q(names__icontains=term) | Q(dni__icontains=term))[0:10]
+                clients = Client.objects.filter(
+                    Q(names__icontains=term) | Q(dni__icontains=term))[0:10]
                 for i in clients:
                     item = i.toJSON()
                     item['text'] = i.get_full_name()

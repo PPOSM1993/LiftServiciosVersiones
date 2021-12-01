@@ -127,39 +127,32 @@ $(function() {
         //minDate: moment().format("YYYY-MM-DD")
     });
 
-
+    $('select[name="prove"]').select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: window.location.pathname,
+            data: function(params) {
+                var queryParameters = {
+                    term: params.term,
+                    action: 'search_proveedor'
+                }
+                return queryParameters;
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese Descripción',
+        minimumInputLength: 1,
+    });
     // search products
 
-    /*$('input[name="search"]').autocomplete({
-        source: function(request, response) {
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: {
-                    'action': 'search_products',
-                    'term': request.term
-                },
-                dataType: 'json',
-            }).done(function(data) {
-                response(data);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                //alert(textStatus + ': ' + errorThrown);
-            }).always(function(data) {
-
-            });
-        },
-        delay: 500,
-        minLength: 1,
-        select: function(event, ui) {
-            event.preventDefault();
-            console.clear();
-            ui.item.cant = 1;
-            ui.item.subtotal = 0.00;
-            console.log(comps.items);
-            comps.add(ui.item);
-            $(this).val('');
-        }
-    });*/
 
     $('.btnRemoveAll').on('click', function() {
         if (comps.items.products.length === 0) return false;

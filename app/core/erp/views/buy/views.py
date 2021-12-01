@@ -26,13 +26,13 @@ class BuyListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView)
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-
+    
     def post(self, request, *args, **kwargs):
         data = {}
         try:
             action = request.POST['action']
             if action == 'searchdata':
-                data = []                
+                data = []
                 for i in Buy.objects.all():
                     data.append(i.toJSON())
             elif action == 'search_details_prod':
@@ -44,7 +44,7 @@ class BuyListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView)
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de Compras'
@@ -95,6 +95,15 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                         det.price = float(i['preciocompra'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
+            elif action == 'search_proveedor':
+                data = []
+                term = request.POST['term']
+                proveedor = Proveedor.objects.filter(
+                    Q(names__icontains=term) | Q(rut__icontains=term))[0:10]
+                for i in proveedor:
+                    item = i.toJSON()
+                    item['text'] = i.get_full_name()
+                    data.append(item)
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -151,6 +160,15 @@ class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateV
                         det.price = float(i['preciocompra'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
+            elif action == 'search_proveedor':
+                data = []
+                term = request.POST['term']
+                proveedor = Proveedor.objects.filter(
+                    Q(names__icontains=term) | Q(rut__icontains=term))[0:10]
+                for i in proveedor:
+                    item = i.toJSON()
+                    item['text'] = i.get_full_name()
+                    data.append(item)
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -205,4 +223,18 @@ class BuyDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteV
         return context
 
 
-
+class BuyExpensesPDFView(View):
+    def get(self,request, *args, **kwargs):
+        template = get_template('buy/expenses.html')
+        context = {'title': 'Wena cochino culiao xD'}
+        html = template.render(context)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        
+        # create a pdf
+        pisa_status = pisa.CreatePDF(
+        html, dest=response)
+        # if error then show some funy view
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response

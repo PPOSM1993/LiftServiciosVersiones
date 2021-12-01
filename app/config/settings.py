@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'core.reports',
     'import_export',
     'colorfield',
+    'core.report',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'

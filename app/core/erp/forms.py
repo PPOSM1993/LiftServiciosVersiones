@@ -245,6 +245,8 @@ class TestForm(Form):
 class SaleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['cli'].queryset = Client.objects.none()
+        
     class Meta:
         model = Sale
         fields = '__all__'
@@ -447,6 +449,8 @@ class TrabajadorForm(ModelForm):
 class BuyForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        #self.fields['prove'].queryset = Proveedor.objects.none()
+        
     class Meta:
         model = Buy
         fields = '__all__'

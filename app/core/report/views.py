@@ -13,8 +13,8 @@ from django.db.models import Avg
 
 # Create your views here.
 
-class ReportSaleView(TemplateView):
-    template_name = 'sale/report.html'
+class ReportBuyView(TemplateView):
+    template_name = 'buy/report.html'
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -28,27 +28,24 @@ class ReportSaleView(TemplateView):
                 data = []
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')
-                search = Sale.objects.all()
+                search = Buy.objects.all()
                 if len(start_date) and len(end_date):
                     search = search.filter(date_joined__range=[start_date, end_date])
                 for s in search:
                     data.append([
                         s.id,
-                        s.cli.names,
+                        s.prove.names,
                         s.date_joined.strftime('%Y-%m-%d'),
                         format(s.subtotal, '.2f'),
-                        format(s.iva, '.2f'),
                         format(s.total, '.2f'),
                     ])
                 subtotal = search.aggregate(r=Coalesce(Sum('subtotal'), 0)).get('r')
-                iva = search.aggregate(r=Coalesce(Sum('iva'), 0)).get('r')
                 total = search.aggregate(r=Coalesce(Sum('total'), 0)).get('r')
                 data.append([
                     '----',
                     '----',
                     '----',
                     format(subtotal, '.2f'),
-                    format(iva, '.2f'),
                     format(total, '.2f'),
                 ])
             else:
@@ -59,9 +56,9 @@ class ReportSaleView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Reporte de Ventas"
+        context["title"] = "Reporte de Compras"
         context["entity"] = "Reportes"
         context["form"] = ReportForm()
-        context["list_url"] = reverse_lazy('sale_report')
+        context["list_url"] = reverse_lazy('buy_report')
         return context
     

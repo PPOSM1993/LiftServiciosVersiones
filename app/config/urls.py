@@ -28,6 +28,8 @@ urlpatterns = [
     path('erp/', include('core.erp.urls')),
     path('reports/', include('core.reports.urls')),
     path('user/', include('core.user.urls')),
+    path('report/', include('core.report.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
