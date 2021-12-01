@@ -37,8 +37,8 @@
                             <div class="form-group">
                                 <label>Buscador de Productos:</label>
                                 <div class="input-group">
-                                    <input type="text" name="search" class="form-control" placeholder="Ingrese Nombre Producto" autocomplete="off">
-                                    <!--<select name="search" class="form-control select2" style="width: 90%;" id=""></select>-->
+                                    <!--<input type="text" name="search" class="form-control" placeholder="Ingrese Nombre Producto" autocomplete="off">-->
+                                    <select name="search" class="form-control select2" style="width: 90%;" id=""></select>
                                     <button class="btn btn-success btn-flat" type="button">
                                             <i class="fas fa-boxes"></i>
                                     </button>
@@ -109,4 +109,8 @@
         </div>
     </div>
 </form>
+<script>
+    comps.items.products = {{ det|safe }};
+    comps.list();
+</script>
 {% endblock %}

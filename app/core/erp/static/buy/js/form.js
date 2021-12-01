@@ -88,6 +88,30 @@ var comps = {
     },
 };
 
+function formatRepo(repo) {
+    if (repo.loading) {
+        return repo.text;
+    }
+
+    var option = $(
+        '<div class="wrapper container">' +
+        '<div class="row">' +
+        '<div class="col-lg-1">' +
+        '<img src="' + repo.image + '" class="img-fluid img-thumbnail d-block mx-auto rounded">' +
+        '</div>' +
+        '<div class="col-lg-11 text-left shadow-sm">' +
+        //'<br>' +
+        '<p style="margin-bottom: 0;">' +
+        '<b>REPUESTO:</b> ' + repo.name + '<br>' +
+        '<b>CATEGORÍA:</b> ' + repo.cat.name + '<br>' +
+        '<b>PRECIO COMPRA:</b> <span class="badge badge-warning">$' + repo.preciocompra + '</span>' +
+        '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>');
+
+    return option;
+}
 
 $(function() {
 
@@ -106,7 +130,7 @@ $(function() {
 
     // search products
 
-    $('input[name="search"]').autocomplete({
+    /*$('input[name="search"]').autocomplete({
         source: function(request, response) {
             $.ajax({
                 url: window.location.pathname,
@@ -135,7 +159,7 @@ $(function() {
             comps.add(ui.item);
             $(this).val('');
         }
-    });
+    });*/
 
     $('.btnRemoveAll').on('click', function() {
         if (comps.items.products.length === 0) return false;
@@ -186,7 +210,38 @@ $(function() {
         });
     });
 
-    comps.list();
+    //comps.list();
+    $('select[name="search"]').select2({
+        theme: "bootstrap4",
+        language: 'es',
+        allowClear: true,
+        ajax: {
+            delay: 250,
+            type: 'POST',
+            url: window.location.pathname,
+            data: function(params) {
+                var queryParameters = {
+                    term: params.term,
+                    action: 'search_products'
+                }
+                return queryParameters;
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese Descripción',
+        minimumInputLength: 1,
+        templateResult: formatRepo,
 
+    }).on('select2:select', function(e) {
+        var data = e.params.data;
+        data.cant = 1;
+        data.subtotal = 0.00;
+        comps.add(data);
+        $(this).val('').trigger('change.select2');
+    });
 
 });

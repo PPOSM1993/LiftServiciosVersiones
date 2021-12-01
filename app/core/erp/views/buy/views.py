@@ -32,7 +32,7 @@ class BuyListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView)
         try:
             action = request.POST['action']
             if action == 'searchdata':
-                data = []
+                data = []                
                 for i in Buy.objects.all():
                     data.append(i.toJSON())
             elif action == 'search_details_prod':
@@ -75,8 +75,8 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                 prods = Product.objects.filter(name__icontains=request.POST['term'])[0:10]
                 for i in prods:
                     item = i.toJSON()
-                    item['value'] = i.name
-                    #item['text'] = i.name
+                    #item['value'] = i.name
+                    item['text'] = i.name
                     data.append(item)
             elif action == 'add':
                 with transaction.atomic():
@@ -107,6 +107,7 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
         context['entity'] = 'Compra'
         context['list_url'] = self.success_url
         context['action'] = 'add'
+        context['det'] = []
         return context
 
 class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
@@ -202,3 +203,6 @@ class BuyDeleteView(LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteV
         context['entity'] = 'Compras'
         context['list_url'] = self.success_url
         return context
+
+
+

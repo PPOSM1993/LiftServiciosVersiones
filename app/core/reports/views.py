@@ -25,7 +25,6 @@ class ReportSaleView(TemplateView):
         try:
             action = request.POST['action']
             if action == 'search_report':
-                data = []
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')
                 search = Sale.objects.all()

@@ -63,5 +63,7 @@ urlpatterns = [
     path('buy/add/', BuyCreateView.as_view(), name='buy_create'),
     path('buy/delete/<int:pk>/', BuyDeleteView.as_view(), name='buy_delete'),
     path('buy/update/<int:pk>/', BuyUpdateView.as_view(), name='buy_update'),
+    #path('Buy/expenses/pdf/<int:pk>/', BuyExpensesPDFView.as_view(), name='buy_expenses_pdf'),
+
 
 ]
