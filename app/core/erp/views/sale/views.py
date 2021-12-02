@@ -132,8 +132,9 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     item['text'] = i.get_full_name()
                     data.append(item)
             elif action == 'create_client':
-                frmClient = ClientForm(request.POST)
-                data = frmClient.save()
+                with transaction.atomic():
+                    frmClient = ClientForm(request.POST)
+                    data = frmClient.save()
                 pass    
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
@@ -213,6 +214,9 @@ class SaleUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Update
                     item = i.toJSON()
                     item['text'] = i.get_full_name()
                     data.append(item)
+                with transaction.atomic():
+                    frmClient = ClientForm(request.POST)
+                    data = frmClient.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:

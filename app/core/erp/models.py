@@ -37,6 +37,7 @@ class Proveedor(models.Model):
         max_length=150, null=True, blank=True, verbose_name='Email', unique=True)
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
     city = models.CharField(max_length=150, null=True, blank=True, verbose_name='Ciudad')
+    
     def __str__(self):
         return self.get_full_name()
 
@@ -46,6 +47,7 @@ class Proveedor(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
+        item['full_name'] = self.get_full_name()
         return item
 
     class Meta:
@@ -127,6 +129,7 @@ class Client(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['full_name'] = self.get_full_name()
         return item
     
     

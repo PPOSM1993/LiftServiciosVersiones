@@ -186,7 +186,8 @@ $(function() {
         parameters.append('action', 'create_client');
         parameters.append('vents', JSON.stringify(vents.items));
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea registrar nuevo Cliente?', parameters, function(response) {
-
+            //var newOption = new Option(response.full_name, response.id, false, true);
+            //$('select[name="cli"]').append(newOption).trigger('change');
             $('#myModalClient').modal('hide');
         });
     });

@@ -104,6 +104,10 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                     item = i.toJSON()
                     item['text'] = i.get_full_name()
                     data.append(item)
+            elif action == 'create_proveedor':
+                with transaction.atomic():
+                    frmProveedor = ProveedorForm(request.POST)
+                    data = frmProveedor.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -117,6 +121,7 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
         context['list_url'] = self.success_url
         context['action'] = 'add'
         context['det'] = []
+        context['frmProveedor'] = ProveedorForm()
         return context
 
 class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateView):
@@ -130,6 +135,12 @@ class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateV
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        instance = self.get_object()
+        form = BuyForm(instance=instance)
+        form.fields['prove'].queryset = Proveedor.objects.filter(id=instance.prove.id)
+        return form
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -169,6 +180,10 @@ class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateV
                     item = i.toJSON()
                     item['text'] = i.get_full_name()
                     data.append(item)
+            elif action == 'create_proveedor':
+                with transaction.atomic():
+                    frmProveedor = ProveedorForm(request.POST)
+                    data = frmProveedor.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -193,6 +208,7 @@ class BuyUpdateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, UpdateV
         context['list_url'] = self.success_url
         context['action'] = 'edit'
         context['det'] = json.dumps(self.get_details_product())
+        context['frmProveedor'] = ProveedorForm()
         return context
 
 

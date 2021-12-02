@@ -79,12 +79,13 @@ class ProveedorForm(ModelForm):
                 }
             ),
         }
-    def save(self, commit=True):
+    def save(self, comit=True):
         data = {}
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                instance = form.save()
+                data = instance.toJSON()
             else:
                 data['error'] = form.errors
         except Exception as e:
@@ -215,12 +216,13 @@ class ClientForm(ModelForm):
             ),
         }
 
-    def save(self, commit=True):
+    def save(self, comit=True):
         data = {}
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                instance = form.save()
+                data = instance.toJSON()
             else:
                 data['error'] = form.errors
         except Exception as e:
@@ -278,6 +280,19 @@ class SaleForm(ModelForm):
                 'class': 'form-control',
             })
         }
+
+    def save(self, comit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                instance = form.save()
+                data = instance.toJSON()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 class GroupPermissionForm(ModelForm):
 
@@ -456,7 +471,7 @@ class BuyForm(ModelForm):
         fields = '__all__'
         widgets = {
             'prove': Select(attrs={
-                'class': 'form-control select2',
+                'class': 'custom-select select2',
                 'style': 'width: 84%'
             }),
             'date_joined': DateInput(
@@ -480,3 +495,4 @@ class BuyForm(ModelForm):
             }
         )
     }
+

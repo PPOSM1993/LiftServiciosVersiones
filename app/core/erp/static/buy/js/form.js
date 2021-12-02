@@ -151,8 +151,26 @@ $(function() {
         placeholder: 'Ingrese Descripción',
         minimumInputLength: 1,
     });
-    // search products
 
+    $('.btnAddProveedor').on('click', function() {
+        $('#myModalProveedor').modal('show');
+    });
+
+    $('#myModalProveedor').on('hidden.bs.modal', function(e) {
+        $('#frmProveedor').trigger('reset');
+    });
+
+    $('#frmProveedor').on('submit', function(e) {
+        e.preventDefault();
+        var parameters = new FormData(this);
+        parameters.append('action', 'create_proveedor');
+        parameters.append('comps', JSON.stringify(comps.items));
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea registrar nuevo Proveedor?', parameters, function(response) {
+            //var newOption = new Option(response.full_name, response.id, false, true);
+            //$('select[name="prove"]').append(newOption).trigger('change');
+            $('#myModalProveedor').modal('hide');
+        });
+    });
 
     $('.btnRemoveAll').on('click', function() {
         if (comps.items.products.length === 0) return false;
@@ -184,8 +202,9 @@ $(function() {
         $('input[name="search"]').val('').focus();
     });
 
+
     // event submit
-    $('form').on('submit', function(e) {
+    $('#frmBuy').on('submit', function(e) {
         e.preventDefault();
 
         if (comps.items.products.length === 0) {
@@ -199,9 +218,10 @@ $(function() {
         parameters.append('action', $('input[name="action"]').val());
         parameters.append('comps', JSON.stringify(comps.items));
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function() {
-            location.href = '/erp/dashboard/';
+            location.href = '/erp/buy/list/';
         });
     });
+
 
     //comps.list();
     $('select[name="search"]').select2({
