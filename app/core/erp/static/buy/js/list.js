@@ -14,7 +14,7 @@ $(function() {
             dataSrc: ""
         },
         columns: [
-            { "data": "id" },
+            { "data": "position" },
             { "data": "prove.names" },
             { "data": "date_joined" },
             { "data": "subtotal" },

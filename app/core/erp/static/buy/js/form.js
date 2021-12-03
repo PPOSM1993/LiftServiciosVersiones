@@ -34,7 +34,7 @@ var comps = {
             columns: [
                 { "data": "id" },
                 { "data": "name" },
-                { "data": "cat.name" },
+                { "data": "stock" },
                 { "data": "preciocompra" },
                 { "data": "cant" },
                 { "data": "subtotal" },
@@ -201,6 +201,15 @@ $(function() {
     $('.btnClearSearch').on('click', function() {
         $('input[name="search"]').val('').focus();
     });
+
+    $('.btnSearchProducts').on('click', function() {
+        $('#myModalSearchProduct').modal('show');
+    });
+
+    $('.btnCreateProduct').on('click', function() {
+        $('#myModalCreateProduct').modal('show');
+    });
+
 
 
     // event submit
