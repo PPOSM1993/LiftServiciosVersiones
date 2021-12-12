@@ -50,14 +50,14 @@ class DetSaleAdmin(admin.ModelAdmin):
     search_fields = ('sale', 'prod', 'price', 'cant', 'subtotal')
     list_per_page = 10
 
-#@admin.register(Compra)
-#class CompraAdmin(admin.ModelAdmin):
-#    list_display = ('proveedor', 'date_joined', 'subtotal', 'total')
-#    search_fields = ('date_joined', 'subtotal', 'total')
-#    list_per_page = 10
+@admin.register(Buy)
+class BuyAdmin(admin.ModelAdmin):
+    list_display = ('date_joined', 'subtotal', 'total')
+    search_fields = ('date_joined', 'subtotal', 'total')
+    list_per_page = 10
 
-#@admin.register(DetCompra)
-#class DetCompraAdmin(admin.ModelAdmin):
-#    list_display = ('compra', 'prod', 'price', 'cant', 'subtotal')
-#    search_fields = ('compra', 'prod', 'price', 'cant', 'subtotal')
-#    list_per_page = 10
+@admin.register(DetBuy)
+class DetBuyAdmin(admin.ModelAdmin):
+    list_display = ('buy', 'prod', 'price', 'cant', 'subtotal')
+    search_fields = ('buy', 'prod', 'price', 'cant', 'subtotal')
+    list_per_page = 10

@@ -139,8 +139,8 @@ class Client(models.Model):
         ordering = ['id']
 
 class Sale(models.Model):
-    cli = models.ForeignKey(Client, on_delete=models.PROTECT)
-    date_joined = models.DateField(default=datetime.now)
+    cli = models.ForeignKey(Client, on_delete=models.PROTECT, verbose_name='Cliente')
+    date_joined = models.DateField(default=datetime.now, verbose_name='Fecha Venta')
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -166,10 +166,10 @@ class Sale(models.Model):
 
 class DetSale(models.Model):
     
-    sale = models.ForeignKey(Sale, on_delete=models.CASCADE)
-    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0)
-    cant = models.IntegerField(default=0)
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE, verbose_name='Venta')
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Repuesto(s)')
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0, verbose_name='Precio')
+    cant = models.IntegerField(default=0, verbose_name='Cantidad')
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
 
@@ -267,8 +267,8 @@ class Trabajador(models.Model):
         ordering = ['id']
 
 class Buy(models.Model):
-    prove = models.ForeignKey(Proveedor, on_delete=models.PROTECT)
-    date_joined = models.DateField(default=datetime.now)
+    prove = models.ForeignKey(Proveedor, on_delete=models.PROTECT ,verbose_name='Proveedor')
+    date_joined = models.DateField(default=datetime.now, verbose_name='Fecha Compra')
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
     total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -292,10 +292,10 @@ class Buy(models.Model):
 
 class DetBuy(models.Model):
     
-    buy = models.ForeignKey(Buy, on_delete=models.CASCADE)
-    prod = models.ForeignKey(Product, on_delete=models.CASCADE)
-    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0)
-    cant = models.IntegerField(default=0)
+    buy = models.ForeignKey(Buy, on_delete=models.CASCADE, verbose_name='Compra')
+    prod = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Repuesto(s)')
+    price = models.DecimalField(default=0.00, max_digits=9, decimal_places=0, verbose_name='Precio')
+    cant = models.IntegerField(default=0, verbose_name='Cantidad')
     subtotal = models.DecimalField(
         default=0.00, max_digits=9, decimal_places=2)
 

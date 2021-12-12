@@ -36,7 +36,12 @@
                             <div class="form-group">
                                 <label>Buscador de Productos:</label>
                                 <div class="input-group">
-                                    <select name="search" class="form-control select2" style="width: 100%;" id=""></select>
+                                    <select name="search" class="form-control select2" style="width: 70%;" id=""></select>
+                                    <button class="btn btn-success btn-flat dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</button>
+                                    <div class="dropdown-menu">
+                                        <!--<a class="dropdown-item btnCreateProduct" href="#"><i class="fas fa-boxes"></i> Nuevo Repuesto</a>-->
+                                        <a class="dropdown-item btnSearchProducts" href="#"><i class="fas fa-search"></i>Buscar Repuestos</a>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -135,6 +140,33 @@
             </div>
         </div>
     </form>
+</div>
+<div class="modal fade" id="myModalSearchProduct" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-search"></i> Búsqueda de Repuestos</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="tblSearchProducts">
+                    <thead>
+                        <tr>
+                            <th>REPUESTO</th>
+                            <th>CATEGORÍA</th>
+                            <th>MARCA</th>
+                            <th>IMAGEN</th>
+                            <th>PRECIO COMPRA</th>
+                            <th>OPCIONES</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     vents.items.products = {{ det|safe }};

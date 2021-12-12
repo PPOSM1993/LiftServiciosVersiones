@@ -83,7 +83,6 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                 prods = Product.objects.filter(name__icontains=request.POST['term'])[0:10]
                 for i in prods:
                     item = i.toJSON()
-                    #item['value'] = i.name
                     item['text'] = i.name
                     data.append(item)
             elif action == 'add':

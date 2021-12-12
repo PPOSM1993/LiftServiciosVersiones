@@ -222,6 +222,12 @@ $(function() {
         $('input[name="search"]').val('').focus();
     });
 
+    $('.btnSearchProducts').on('click', function() {
+        $('#myModalSearchProduct').modal('show');
+    });
+
+    //
+
     // event submit
     $('#frmSale').on('submit', function(e) {
         e.preventDefault();
