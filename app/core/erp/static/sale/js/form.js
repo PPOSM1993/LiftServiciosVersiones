@@ -191,6 +191,38 @@ $(function() {
             $('#myModalClient').modal('hide');
         });
     });
+
+    /*$('input[name="search"]').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                data: {
+                    'action': 'search_products',
+                    'term': request.term
+                },
+                dataType: 'json',
+            }).done(function(data) {
+                response(data);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                //alert(textStatus + ': ' + errorThrown);
+            }).always(function(data) {
+
+            });
+        },
+        delay: 500,
+        minLength: 1,
+        select: function(event, ui) {
+            event.preventDefault();
+            console.clear();
+            ui.item.cant = 1;
+            ui.item.subtotal = 0.00;
+            console.log(vents.items);
+            vents.add(ui.item);
+            $(this).val('');
+        }
+    });*/
+
     $('.btnRemoveAll').on('click', function() {
         if (vents.items.products.length === 0) return false;
         alert_action('Notificación', '¿Estas seguro de eliminar todos los items de tu detalle?', function() {
@@ -284,4 +316,6 @@ $(function() {
         $(this).val('').trigger('change.select2');
 
     });
+
+    //vents.list();
 });
