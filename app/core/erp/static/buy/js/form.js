@@ -166,8 +166,6 @@ $(function() {
         parameters.append('action', 'create_proveedor');
         parameters.append('comps', JSON.stringify(comps.items));
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea registrar nuevo Proveedor?', parameters, function(response) {
-            //var newOption = new Option(response.full_name, response.id, false, true);
-            //$('select[name="prove"]').append(newOption).trigger('change');
             $('#myModalProveedor').modal('hide');
         });
     });
@@ -201,16 +199,6 @@ $(function() {
     $('.btnClearSearch').on('click', function() {
         $('input[name="search"]').val('').focus();
     });
-
-    $('.btnSearchProducts').on('click', function() {
-        $('#myModalSearchProduct').modal('show');
-    });
-
-    $('.btnCreateProduct').on('click', function() {
-        $('#myModalCreateProduct').modal('show');
-    });
-
-
 
     // event submit
     $('#frmBuy').on('submit', function(e) {
@@ -266,4 +254,5 @@ $(function() {
         $(this).val('').trigger('change.select2');
     });
 
+    comps.list();
 });

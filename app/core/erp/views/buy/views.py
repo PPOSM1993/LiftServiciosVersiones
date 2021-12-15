@@ -80,10 +80,9 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                prods = Product.objects.filter(name__icontains=request.POST['term'])[0:10]
+                prods = Product.objects.filter(name__icontains=request.POST['term'], stock__lte=0)[0:10]
                 for i in prods:
                     item = i.toJSON()
-                    #item['value'] = i.name
                     item['text'] = i.name
                     data.append(item)
             elif action == 'add':
@@ -103,6 +102,8 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                         det.price = float(i['preciocompra'])
                         det.subtotal = float(i['subtotal'])
                         det.save()
+                        det.prod.stock += det.cant
+                        det.prod.save()
             elif action == 'search_proveedor':
                 data = []
                 term = request.POST['term']

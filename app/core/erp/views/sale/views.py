@@ -88,8 +88,7 @@ class SaleCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, Create
                     products = products.filter(name__icontains=term)
                 for i in products.exclude(id__in=ids_exclude)[0:10]:
                     item = i.toJSON()
-                    #item['value'] = i.name
-                    item['text'] = i.name
+                    item['value'] = i.name
                     data.append(item)
             elif action == 'search_autocomplete':
                 data = []
