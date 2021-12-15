@@ -11,7 +11,7 @@ function message_error(obj) {
     }
     Swal.fire({
         title: 'Error!',
-        html: html,
+        html: "No se puede eliminar el siguiente dato, verifique que no esté relacionado con información adicional.",
         icon: 'error'
     });
 }
