@@ -113,13 +113,16 @@ class Client(models.Model):
         regex=r'^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$', message="Formato de Rut Incorrecto.")
     dni = models.CharField(
         validators=[dni_regex], max_length=12, unique=True, verbose_name='RUT')
-
     commercial_business = models.CharField(max_length=150, null=True, blank=True, verbose_name='Giro Comercial')
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="El número de telefono debe tener el siguiente: '+999999999'. Up to 15 digits allowed.")
     phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, unique=True, verbose_name="Telefono") # validators should be a list
     address = models.CharField(max_length=150, null=True, blank=True, verbose_name='Dirección')
     city = models.CharField(max_length=150, null=True, blank=True, verbose_name='Ciudad')
     email = models.EmailField(max_length=150, null=True, blank=True, verbose_name='Email', unique=True)
+    
+    
+    def __str__(self):
+        return self.names
     
     def __str__(self):
         return self.get_full_name()
