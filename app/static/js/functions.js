@@ -7,11 +7,12 @@ function message_error(obj) {
         });
         html += '</ul>';
     } else {
-        html = '<p>' + obj + '</p>';
+        //html = '<p>' + obj + '</p>';
+        html = '<p>' + "No se puede eliminar el objeto seleccionado, por favor verifique que no esté asociado a otro dato." + '</p>';
     }
     Swal.fire({
         title: 'Error!',
-        html: "No se puede eliminar el siguiente dato, verifique que no esté relacionado con información adicional.",
+        html: html,
         icon: 'error'
     });
 }

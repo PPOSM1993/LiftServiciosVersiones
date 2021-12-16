@@ -7,6 +7,13 @@ var comps = {
         total: 0.00,
         products: []
     },
+    get_ids: function() {
+        var ids = [];
+        $.each(this.items.products, function(key, value) {
+            ids.push(value.id);
+        });
+        return ids;
+    },
     calculate_invoice: function() {
         var subtotal = 0.00;
         $.each(this.items.products, function(pos, dict) {
@@ -232,7 +239,8 @@ $(function() {
             data: function(params) {
                 var queryParameters = {
                     term: params.term,
-                    action: 'search_products'
+                    action: 'search_products',
+                    ids: JSON.stringify(comps.get_ids())
                 }
                 return queryParameters;
             },

@@ -186,7 +186,7 @@ class ClientForm(ModelForm):
             ),
             'dni': TextInput(
                 attrs={
-                    'placeholder': 'RUT (Use puntos y guión  - EJ: 11.111.111-1)',
+                    'placeholder': 'RUT',
                 }
             ),
             'commercial_business': TextInput(

@@ -80,11 +80,27 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
             action = request.POST['action']
             if action == 'search_products':
                 data = []
-                prods = Product.objects.filter(name__icontains=request.POST['term'], stock__lte=0)[0:10]
-                for i in prods:
+                ids_exclude = json.loads(request.POST['ids'])
+                term = request.POST['term'].strip()
+                products = Product.objects.filter(stock__lte=0)
+                if len(term):
+                    products = products.filter(name__icontains=term)
+                for i in products.exclude(id__in=ids_exclude)[0:10]:
+                    item = i.toJSON()
+                    item['value'] = i.name
+                    data.append(item)
+            elif action == 'search_autocomplete':
+                data = []
+                ids_exclude = json.loads(request.POST['ids'])
+                term = request.POST['term'].strip()
+                data.append({'id': term, 'text': term})
+                products = Product.objects.filter(
+                    name__icontains=term, stock__lte=0)
+                for i in products.exclude(id__in=ids_exclude)[0:10]:
                     item = i.toJSON()
                     item['text'] = i.name
                     data.append(item)
+                    
             elif action == 'add':
                 with transaction.atomic():
                     comps = json.loads(request.POST['comps'])
@@ -104,6 +120,7 @@ class BuyCreateView(LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateV
                         det.save()
                         det.prod.stock += det.cant
                         det.prod.save()
+                    data = {'id': buy.id}
             elif action == 'search_proveedor':
                 data = []
                 term = request.POST['term']

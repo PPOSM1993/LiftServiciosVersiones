@@ -33,18 +33,19 @@ class ReportSaleView(TemplateView):
                     search = search.filter(date_joined__range=[start_date, end_date])
                 for s in search:
                     data.append([
-                        s.id,
+                        #s.id,
                         s.cli.names,
                         s.date_joined.strftime('%Y-%m-%d'),
                         format(s.subtotal, '.2f'),
                         format(s.iva, '.2f'),
                         format(s.total, '.2f'),
                     ])
+                    
                 subtotal = search.aggregate(r=Coalesce(Sum('subtotal'), 0)).get('r')
                 iva = search.aggregate(r=Coalesce(Sum('iva'), 0)).get('r')
                 total = search.aggregate(r=Coalesce(Sum('total'), 0)).get('r')
                 data.append([
-                    '----',
+                    #'----',
                     '----',
                     '----',
                     format(subtotal, '.2f'),

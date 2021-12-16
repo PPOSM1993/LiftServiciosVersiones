@@ -14,7 +14,7 @@ SQLITE = {
 POSTGRESQL = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'liftservicios_db',
+        'NAME': 'ls',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost',
@@ -27,7 +27,7 @@ POSTGRESQL = {
 MYSQL = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'liftservicios_db',
+        'NAME': 'ls',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
