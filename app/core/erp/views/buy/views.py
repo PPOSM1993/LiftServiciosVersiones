@@ -42,7 +42,7 @@ class BuyListView(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView)
             elif action == 'search_details_prod':
                 data = []
                 position = 1
-                for i in DetBuy.objects.filter(sale_id=request.POST['id']):
+                for i in DetBuy.objects.filter(buy_id=request.POST['id']):
                     item = i.toJSON()
                     item['position'] = position
                     data.append(item)
